@@ -20,5 +20,10 @@ namespace Grains
         {
             return this.State;
         }
+
+        public Task Post(Post post)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
