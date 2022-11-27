@@ -15,24 +15,4 @@ await host.StopAsync();
 
 return 0;
 
-static async Task<IHost> StartSiloAsync()
-{
-    var builder = new HostBuilder()
-        .UseOrleans(c =>
-        {
-            c.UseLocalhostClustering()
-                .Configure<ClusterOptions>(options =>
-                {
-                    options.ClusterId = "dev";
-                    options.ServiceId = "HelloWorldApp";
-                })
-                .Configure<EndpointOptions>(
-                    options => options.AdvertisedIPAddress = IPAddress.Loopback)
-                .ConfigureLogging(logging => logging.AddConsole());
-        });
 
-    var host = builder.Build();
-    await host.StartAsync();
-
-    return host;
-}

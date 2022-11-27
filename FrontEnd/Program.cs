@@ -1,8 +1,9 @@
 using Orleans.Configuration;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
-var host = await StartClientAsync();
-var client = host.Services.GetRequiredService<IClusterClient>();
+var siloHost = await StartSiloAsync();
+var client = siloHost.Services.GetRequiredService<IClusterClient>();
 
 // Add services to the container.
 
@@ -32,26 +33,24 @@ app.MapFallbackToFile("index.html");
 app.Run();
 
 
-
-
-static async Task<IHost> StartClientAsync()
+static async Task<IHost> StartSiloAsync()
 {
     var builder = new HostBuilder()
-        .UseOrleansClient(client =>
+        .UseOrleans(c =>
         {
-            client.UseLocalhostClustering()
+            c.UseLocalhostClustering()
                 .Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = "dev";
-                    options.ServiceId = "OrleansBasics";
-                });
-        })
-        .ConfigureLogging(logging => logging.AddConsole());
+                    options.ServiceId = "HelloWorldApp";
+                })
+                .Configure<EndpointOptions>(
+                    options => options.AdvertisedIPAddress = IPAddress.Loopback)
+                .ConfigureLogging(logging => logging.AddConsole());
+        });
 
     var host = builder.Build();
     await host.StartAsync();
-
-    Console.WriteLine("Client successfully connected to silo host \n");
 
     return host;
 }

@@ -1,9 +1,9 @@
 ﻿using GrainInterfaces;
 using System.Runtime.CompilerServices;
 
-namespace Grains
+namespace Grains.State
 {
-    public class PostGrain : Orleans.Grain<Post>, IPostGrain
+    public class PostGrain : Grain<Post>, IPostGrain
     {
         public override Task OnActivateAsync(CancellationToken cancellationToken)
         {
@@ -18,7 +18,7 @@ namespace Grains
 
         public async Task<Post> GetContent()
         {
-            return this.State;
+            return State;
         }
 
         public Task Post(Post post)

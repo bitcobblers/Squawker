@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33103.201
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Silo", "Silo\Silo.csproj", "{50355C6B-9B8E-4646-A2F6-2D385D222336}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrainInterfaces", "GrainInterfaces\GrainInterfaces.csproj", "{0167BF8D-9789-4E73-8596-88C5F127C53F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Grains", "Grains\Grains.csproj", "{75FEAAD9-4FD8-4B8D-BC74-09F7202F82D9}"
@@ -22,10 +20,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{50355C6B-9B8E-4646-A2F6-2D385D222336}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50355C6B-9B8E-4646-A2F6-2D385D222336}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50355C6B-9B8E-4646-A2F6-2D385D222336}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50355C6B-9B8E-4646-A2F6-2D385D222336}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0167BF8D-9789-4E73-8596-88C5F127C53F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0167BF8D-9789-4E73-8596-88C5F127C53F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0167BF8D-9789-4E73-8596-88C5F127C53F}.Release|Any CPU.ActiveCfg = Release|Any CPU

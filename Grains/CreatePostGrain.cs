@@ -25,27 +25,4 @@ namespace Grains
             return post;
         }
     }
-
-    public class AuthorGrain : Orleans.Grain<Author>, IAuthorGrain
-    {
-        public async Task Follow()
-        {
-            return;
-        }
-
-        public async Task Friend()
-        {
-            return;
-        }
-
-        public async Task<Author> Get()
-        {
-            return this.State;
-        }
-
-        public async Task SetPost(Post post)
-        {
-            return;
-        }
-    }
 }

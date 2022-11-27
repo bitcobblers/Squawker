@@ -1,5 +1,6 @@
 #See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
+FROM node:latest AS node_base
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
@@ -20,4 +21,6 @@ RUN dotnet publish "FrontEnd.csproj" -c Release -o /app/publish /p:UseAppHost=fa
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+RUN dotnet dev-certs
 ENTRYPOINT ["dotnet", "FrontEnd.dll"]
