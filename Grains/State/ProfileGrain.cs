@@ -2,7 +2,7 @@
 
 namespace Grains.State
 {
-    public class ProfileGrain : Grain<Author>, IAuthorGrain
+    public class ProfileGrain : Grain<Profile>, IAuthorGrain
     {
         public async Task Follow()
         {
@@ -14,7 +14,7 @@ namespace Grains.State
             return;
         }
 
-        public async Task<Author> Get()
+        public async Task<Profile> Get()
         {
             return State;
         }

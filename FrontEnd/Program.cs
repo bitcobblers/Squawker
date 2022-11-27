@@ -39,7 +39,7 @@ static async Task<IHost> StartSiloAsync()
         .UseOrleans(c =>
         {
             c.UseLocalhostClustering()
-                .Configure<ClusterOptions>(options =>
+             .Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = "dev";
                     options.ServiceId = "HelloWorldApp";

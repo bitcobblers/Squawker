@@ -2,7 +2,7 @@
 {
     public interface IAuthorGrain : Orleans.IGrainWithGuidKey
     {
-        Task<Author> Get();
+        Task<Profile> Get();
 
         Task Follow();
 
