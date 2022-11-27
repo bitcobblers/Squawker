@@ -1,8 +1,9 @@
-﻿using GrainInterfaces;
+﻿using GrainInterfaces.Model;
+using GrainInterfaces.State;
 
 namespace Grains.State
 {
-    public class ProfileGrain : Grain<Profile>, IAuthorGrain
+    public class ProfileGrain : Grain<Profile>, IProfileGrain
     {
         public async Task Follow()
         {

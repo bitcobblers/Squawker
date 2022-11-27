@@ -1,10 +1,11 @@
-﻿namespace GrainInterfaces
+﻿namespace GrainInterfaces.Model
 {
 
+    [GenerateSerializer]
     public class Post
-    {        
+    {
         #region Keys 
-     
+
         public Guid Id { get; set; } = Guid.Empty;
         public Guid Author { get; set; } = Guid.Empty;
 

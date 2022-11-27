@@ -1,6 +1,8 @@
-﻿namespace GrainInterfaces
+﻿using GrainInterfaces.Model;
+
+namespace GrainInterfaces.State
 {
-    public interface IAuthorGrain : Orleans.IGrainWithGuidKey
+    public interface IProfileGrain : IGrainWithGuidKey
     {
         Task<Profile> Get();
 

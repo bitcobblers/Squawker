@@ -1,4 +1,6 @@
 ﻿using GrainInterfaces;
+using GrainInterfaces.Model;
+using GrainInterfaces.State;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Runtime.InteropServices;
@@ -7,7 +9,7 @@ namespace FrontEnd.Controllers
 {
 
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class PostController : ControllerBase
     {
         private readonly IClusterClient client;
@@ -22,9 +24,8 @@ namespace FrontEnd.Controllers
         [HttpGet]
         public async Task<IEnumerable<Post>> Get()
         {
-            var grain = this.client.GetGrain<IPostGrain>(Guid.NewGuid());
-            var content = await grain.GetContent();
-            return new[] { content };
+            var grain = this.client.GetGrain<IFeedGrain>(0);
+            return await grain.Get(string.Empty);            
         }
     }
 }

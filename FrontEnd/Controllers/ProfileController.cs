@@ -1,10 +1,11 @@
-﻿using GrainInterfaces;
+﻿using GrainInterfaces.Model;
+using GrainInterfaces.State;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrontEnd.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ProfileController : ControllerBase
     {
         private readonly IClusterClient client;
@@ -19,7 +20,7 @@ namespace FrontEnd.Controllers
         [HttpGet]
         public async Task<IEnumerable<Profile>> Get()
         {
-            var grain = this.client.GetGrain<IAuthorGrain>(Guid.NewGuid());
+            var grain = this.client.GetGrain<IProfileGrain>(Guid.NewGuid());
             var content = await grain.Get();
             return new[] { content };
 
