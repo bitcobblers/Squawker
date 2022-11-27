@@ -9,7 +9,7 @@ namespace FrontEnd.Controllers
 {
      
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class PostController : ControllerBase
     {
         private readonly IClusterClient client;

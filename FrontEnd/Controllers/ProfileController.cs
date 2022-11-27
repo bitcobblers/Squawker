@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FrontEnd.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ProfileController : ControllerBase
     {
         private readonly IClusterClient client;

@@ -5,7 +5,7 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <SpaRoot>qwik-app\</SpaRoot>
-    <SpaProxyServerUrl>https://localhost:44416</SpaProxyServerUrl>
+    <SpaProxyServerUrl>https://127.0.0.1:3000/</SpaProxyServerUrl>
     <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>127f2994-34f9-4fcd-98e2-c1157429aa66</UserSecretsId>
