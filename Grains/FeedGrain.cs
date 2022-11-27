@@ -9,7 +9,8 @@ namespace Grains
     {
         public Task<Post[]> Get(string feedName)
         {
-            return Task.FromResult(new[] { new Post() {  Content = "This is a test" } } );
+            var result = new[] { new Post() { Content = "This is a test" } };
+            return Task.FromResult(result);
         }
     }
 }

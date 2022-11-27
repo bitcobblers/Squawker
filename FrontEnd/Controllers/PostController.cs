@@ -22,10 +22,11 @@ namespace FrontEnd.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Post>> Get()
+        public async Task<Post[]> Get()
         {
             var grain = this.client.GetGrain<IFeedGrain>(0);
-            return await grain.Get(string.Empty);            
+            var result = await grain.Get(string.Empty);
+            return result;
         }
     }
 }
