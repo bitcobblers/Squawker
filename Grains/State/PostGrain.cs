@@ -1,6 +1,5 @@
 ﻿using GrainInterfaces.Model;
 using GrainInterfaces.State;
-using System.Runtime.CompilerServices;
 
 namespace Grains.State
 {

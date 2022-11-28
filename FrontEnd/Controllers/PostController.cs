@@ -1,13 +1,10 @@
 ﻿using GrainInterfaces;
 using GrainInterfaces.Model;
-using GrainInterfaces.State;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Runtime.InteropServices;
 
 namespace FrontEnd.Controllers
 {
-     
+
     [ApiController]
     [Route("[controller]")]
     public class PostController : ControllerBase
@@ -24,9 +21,10 @@ namespace FrontEnd.Controllers
         [HttpGet]
         public async Task<Post[]> Get()
         {
+            var userName = string.Empty;
             var grain = this.client.GetGrain<IFeedGrain>(0);
-            var result = await grain.Get(string.Empty);
-            return result;
+            
+            return await grain.Get(userName);            
         }
     }
 }
