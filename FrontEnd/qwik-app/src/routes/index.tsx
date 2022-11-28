@@ -22,33 +22,34 @@ export default component$(() => {
 
         return res.json();
     });
+    store.name = "test";
 
-
-  return (
-      <div>      
-          <input onInput$={(e: Event) => (store.name = (e.target as HTMLInputElement).value)} />
-    <div>
-              {feed.loading && <div>Loading age guess...</div>}
-              {!feed.loading &&  (
-            <div>
-                     Loaded:  {feed.promise.then((f) => (
-                    <div>
-                        {f[0].content}
-                    </div>
-                ))}
+    return (
+        <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
+            <div class="mx-auto max-w-lg">                
+                <div>
+                    {feed.loading && <div>Loading age guess...</div>}
+                    {!feed.loading && (
+                        <div>
+                            {feed.promise.then((f) => (
+                                <div>
+                                    {f[0].content}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
-        )}
-    </div>
-    </div>
-  );
+        </div>
+    );
 });
 
 export const head: DocumentHead = {
-  title: 'Your Socaul Square',
-  meta: [
-    {
-      name: 'description',
-      content: 'Qwik site description',
-    },
-  ],
+    title: 'Your Socaul Square',
+    meta: [
+        {
+            name: 'description',
+            content: 'Qwik site description',
+        },
+    ],
 };
