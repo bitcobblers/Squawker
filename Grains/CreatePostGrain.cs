@@ -20,6 +20,9 @@ namespace Grains
         {
             var postGrain = this.client.GetGrain<IPostGrain>(post.Id);
             var authorGrain = this.client.GetGrain<IProfileGrain>(author);
+            
+            // process for hashtags and notify the hashtag actors.
+
 
             await Task.WhenAll(
                 postGrain.Post(post),

@@ -8,7 +8,8 @@ export default component$((props: { post: IPost }) => {
             <div class="mb-2">
                 {p.author}
             </div>
-            {p.content }
+
+                {p.content }
     </div>
   );
 });

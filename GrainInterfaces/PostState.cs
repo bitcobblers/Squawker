@@ -8,4 +8,14 @@
         Approved = 3,
         Banned = 4
     }
+
+    public interface IPostLink
+    {
+        Guid[] Posts { get; set; }
+    }
+
+    public interface IProfileLink
+    {
+        Guid Profile { get; set; }
+    }
 }
