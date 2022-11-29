@@ -2,6 +2,7 @@
 
 namespace GrainInterfaces.State
 {
+
     public interface IPostGrain : IGrainWithGuidKey
     {
         Task<Post> GetContent();

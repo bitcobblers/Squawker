@@ -1,4 +1,4 @@
-﻿namespace GrainInterfaces.Model
+﻿namespace GrainInterfaces
 {
     public enum PostState
     {

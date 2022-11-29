@@ -1,6 +1,7 @@
 ﻿namespace GrainInterfaces.Model
 {
 
+
     [GenerateSerializer]
     public class Post
     {
@@ -34,6 +35,9 @@
 
         [Id(6)]
         public Guid[] Replies { get; set; } = new Guid[0];
+
+        [Id(7)]
+        public Guid[] HashTags { get; set; } = new Guid[0];
 
         #endregion
     }
