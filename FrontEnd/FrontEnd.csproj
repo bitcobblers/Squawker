@@ -27,8 +27,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="qwik-app\src\models\post.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\GrainInterfaces\GrainInterfaces.csproj" />
     <ProjectReference Include="..\Grains\Grains.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="qwik-app\src\models\post.ts" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

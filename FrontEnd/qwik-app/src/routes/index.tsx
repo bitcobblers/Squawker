@@ -1,21 +1,19 @@
 import { component$, useResource$, useStore } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
-import { Link } from '@builder.io/qwik-city';
+import PostComponent from '../components/post/post-component';
+import { IPost } from '../models/post';
 
 export default component$(() => {
     const store = useStore<{ name?: string }>({
         name: undefined,
     });
-    const feed = useResource$<{
-        content: string;
-        age: number;
-        count: number;
-    }[]>(async ({ track, cleanup }) => {
-        console.log("Getting Data");
-        track(() => store.name);
 
+    const feed = useResource$<IPost[]>(async ({ track, cleanup }) => {
         const abortController = new AbortController();
+
+        track(() => store.name);        
         cleanup(() => abortController.abort('cleanup'));
+
         const res = await fetch(`https://localhost:3000/api/post`, {
             signal: abortController.signal,
         });
@@ -24,23 +22,17 @@ export default component$(() => {
     });
     store.name = "test";
 
-    return (
-        <div class="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-6 sm:py-12">
-            <div class="mx-auto max-w-lg">                
-                <div>
-                    {feed.loading && <div>Loading age guess...</div>}
-                    {!feed.loading && (
-                        <div>
-                            {feed.promise.then((f) => (
-                                <div>
-                                    {f[0].content}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
+    return (        
+        <div class="mx-auto max-w-xl">                            
+            
+            <textarea class="w-full" />
+            <div class="pt-4">
+            {feed.loading && <div>Loading age guess...</div>}
+            {!feed.loading && feed.promise.then((f) =>
+                f.map(post => (<PostComponent post={post} />)
+                ))}  
             </div>
-        </div>
+        </div>        
     );
 });
 
@@ -49,7 +41,7 @@ export const head: DocumentHead = {
     meta: [
         {
             name: 'description',
-            content: 'Qwik site description',
+            content: 'Open source social media platform.',
         },
     ],
 };
