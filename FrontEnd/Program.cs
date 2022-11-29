@@ -1,10 +1,19 @@
+using GrainInterfaces.State;
+using Grains.DocumentData;
+using Grains.State;
+using Microsoft.Extensions.FileProviders;
 using Orleans.Configuration;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
-var siloHost = await StartSiloAsync();
+var path = Path.GetFullPath("./files");
+var documentStore = new JsonDocumentStore(new PhysicalFileWriter(new PhysicalFileProvider(path)));
+
+var siloHost = await StartSiloAsync(documentStore);
 var client = siloHost.Services.GetRequiredService<IClusterClient>();
 
+
+var result = client.GetGrain<IPostGrain>(Guid.NewGuid()).GetContent().Result;
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
@@ -32,14 +41,14 @@ app.MapFallbackToFile("index.html");
 
 app.Run();
 
-
-static async Task<IHost> StartSiloAsync()
-{
-    var builder = new HostBuilder()
-        .UseOrleans(c =>
+static async Task<IHost> StartSiloAsync(IDocumentStore storage)
+{    
+    var builder = new HostBuilder();    
+    builder.UseOrleans(c =>
         {
-            c.UseLocalhostClustering()
-             .Configure<ClusterOptions>(options =>
+            var cluster = c.UseLocalhostClustering();
+            cluster.Services.AddSingleton(storage);
+            cluster.Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = "dev";
                     options.ServiceId = "HelloWorldApp";

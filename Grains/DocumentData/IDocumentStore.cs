@@ -1,8 +1,22 @@
-﻿namespace Grains.DocumentData
+﻿using GrainInterfaces.Model;
+
+namespace Grains.DocumentData
 {
-    public interface IDocumentStore<TType> where TType : class
+    public interface IFileName
     {
-        TType Get(Guid id);
-        TType[] Get(Guid[] ids);
+        string Get<TType>(Guid id)
+            where TType : class;
+    }
+
+    public interface IDocumentStore 
+    {
+        void Put<TType>(Guid id, TType model)
+            where TType : class;
+
+        TType? Get<TType>(Guid id)
+            where TType : class;
+
+        TType[] Get<TType>(Guid[] ids)
+            where TType : class;
     }
 }
