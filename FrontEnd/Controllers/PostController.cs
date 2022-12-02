@@ -18,6 +18,15 @@ namespace FrontEnd.Controllers
             this.logger = logger;
         }
 
+        [HttpPost]
+        public async Task<Post> Post([FromBody]string post)
+        {
+            var grain = this.client.GetGrain<ICreatePostGrain>(0);
+            var result = await grain.Create(new Post() { Id=Guid.NewGuid(), Content = post }, Guid.NewGuid());
+            return result;
+        }
+
+
         [HttpGet]
         public async Task<Post[]> Get()
         {

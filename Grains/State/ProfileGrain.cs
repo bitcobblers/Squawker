@@ -22,7 +22,7 @@ namespace Grains.State
 
         public async Task SetPost(Post post)
         {
-            return;
+            return ;
         }
     }
 }

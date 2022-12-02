@@ -1,11 +1,29 @@
-import { component$, useResource$, useStore } from '@builder.io/qwik';
+import { component$, Resource, useResource$, useStore, $ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import PostComponent from '../components/post/post-component';
 import { IPost } from '../models/post';
 
 export default component$(() => {
-    const store = useStore<{ name?: string }>({
+    const store = useStore<{ name?: string, content: string }>({
         name: undefined,
+        content: ""
+    });
+
+    const createNew = $(() => {
+        const abortController = new AbortController();
+        if (store.content?.length > 0) {
+            const done = fetch(`https://localhost:3000/api/post`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json;"
+                },
+                body: `"${store.content}"`,
+                signal: abortController.signal,
+            }).then(res => {
+                store.content = "";
+                console.log(res.json());
+            });
+        }
     });
 
     const feed = useResource$<IPost[]>(async ({ track, cleanup }) => {
@@ -20,21 +38,30 @@ export default component$(() => {
 
         return res.json();
     });
-    store.name = "test";
+    store.name = "323";
 
     return (        
         <div class="mx-auto max-w-xl">                                        
             <div class="flex">
-                <textarea class="w-full border-2 rounded-md" />
+                <textarea onInput$={(e: Event) => (store.content = (e.target as HTMLInputElement).value)} 
+                    class="w-full border-2 rounded-md" />
                 <div class="px-2">
-                    <button class="bg-sky-900 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-sky-50 text-white font-semibold h-8 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto dark:bg-sky-500 dark:highlight-white/20 dark:hover:bg-sky-400">Post</button>
-                </div>
+                    <button onClick$={createNew}
+                        class="bg-sky-900 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-sky-50 text-white font-semibold h-8 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto dark:bg-sky-500 dark:highlight-white/20 dark:hover:bg-sky-400">
+                        Post</button>
+                </div>                
             </div>
             <div class="pt-4 mt-4 border-t-2">
-            {feed.loading && <div>Loading page...</div>}
-            {!feed.loading && feed.promise.then((f) =>
-                f.map(post => (<PostComponent post={post} />)
-                ))}  
+                <Resource
+                    value={feed}
+                    onPending={() => <div>Loading...</div>}
+                    onRejected={(reason) => <div>Error: {reason}</div>}
+                    onResolved={(data) =>
+                        <div>                        
+                            {data.map(post => (<PostComponent post={post} />))}
+                        </div>
+                    }
+                />
             </div>
         </div>        
     );
