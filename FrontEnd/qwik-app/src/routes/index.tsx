@@ -23,11 +23,15 @@ export default component$(() => {
     store.name = "test";
 
     return (        
-        <div class="mx-auto max-w-xl">                            
-            
-            <textarea class="w-full" />
-            <div class="pt-4">
-            {feed.loading && <div>Loading age guess...</div>}
+        <div class="mx-auto max-w-xl">                                        
+            <div class="flex">
+                <textarea class="w-full border-2 rounded-md" />
+                <div class="px-2">
+                    <button class="bg-sky-900 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 focus:ring-offset-sky-50 text-white font-semibold h-8 px-6 rounded-lg w-full flex items-center justify-center sm:w-auto dark:bg-sky-500 dark:highlight-white/20 dark:hover:bg-sky-400">Post</button>
+                </div>
+            </div>
+            <div class="pt-4 mt-4 border-t-2">
+            {feed.loading && <div>Loading page...</div>}
             {!feed.loading && feed.promise.then((f) =>
                 f.map(post => (<PostComponent post={post} />)
                 ))}  
