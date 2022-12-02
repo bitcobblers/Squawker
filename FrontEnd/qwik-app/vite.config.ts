@@ -4,13 +4,13 @@ import basicSsl from '@vitejs/plugin-basic-ssl'
 
 import { qwikVite } from '@builder.io/qwik/optimizer';
 import { qwikCity } from '@builder.io/qwik-city/vite';
-
+import mkcert from 'vite-plugin-mkcert'
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-export default defineConfig(() => {
+export default defineConfig(() => {    
     process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0;
     return {
-    plugins: [qwikCity(), qwikVite(), tsconfigPaths(), basicSsl()],
+    plugins: [qwikCity(), qwikVite(), tsconfigPaths(), mkcert()],
     preview: {
       headers: {
         'Cache-Control': 'public, max-age=600',

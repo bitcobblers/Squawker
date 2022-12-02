@@ -1,3 +1,4 @@
+using GrainInterfaces.Model;
 using GrainInterfaces.State;
 using Grains.DocumentData;
 using Grains.State;
@@ -6,14 +7,14 @@ using Orleans.Configuration;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
-var path = Path.GetFullPath("./files");
+var path = Path.GetFullPath("../Content");
 var documentStore = new JsonDocumentStore(new PhysicalFileWriter(new PhysicalFileProvider(path)));
 
 var siloHost = await StartSiloAsync(documentStore);
 var client = siloHost.Services.GetRequiredService<IClusterClient>();
 
 
-var result = client.GetGrain<IPostGrain>(Guid.NewGuid()).GetContent().Result;
+await client.GetGrain<IPostGrain>(Guid.NewGuid()).Post(new Post() { Content ="This is a test", Author = Guid.NewGuid() });
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();

@@ -42,7 +42,14 @@ namespace Grains.State
 
         public Task Post(Post post)
         {
-            throw new NotImplementedException();
+            this.state.Author = post.Author;
+            this.state.Content = post.Content;
+            this.state.TimeStamp = post.TimeStamp;
+            this.state.State = GrainInterfaces.PostState.New;
+
+            var key = this.GetPrimaryKey();
+            store.Put(key, state);
+            return Task.CompletedTask;
         }
     }
 }
