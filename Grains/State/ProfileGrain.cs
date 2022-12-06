@@ -3,8 +3,9 @@ using GrainInterfaces.State;
 
 namespace Grains.State
 {
-    public class ProfileGrain : Grain<Profile>, IProfileGrain
+    public class ProfileGrain : Grain, IProfileGrain
     {
+        private Profile State = null;
         public async Task Follow()
         {
             return;
