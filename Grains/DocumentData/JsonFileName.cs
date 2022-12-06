@@ -1,10 +1,10 @@
 ﻿namespace Grains.DocumentData
 {
-    public class JsonFileName : IFileName
-    {        
-        public string Get<TType>(Guid id) where TType : class
+    public class JsonFileName : IFileNamer
+    {    
+        public string Get<TType>(string clusterId, Guid grainId)
         {
-            return $"{id}.{typeof(TType).Name}.json";
+            return $"{clusterId}.{grainId}.{nameof(TType)}.json";
         }
     }
 }

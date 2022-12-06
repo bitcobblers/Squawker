@@ -1,55 +1,49 @@
 ﻿using GrainInterfaces.Model;
 using GrainInterfaces.State;
-using Grains.DocumentData;
+using Orleans.EventSourcing;
+using Orleans.Providers;
 
 namespace Grains.State
 {
-    public class PostGrain : Grain, IPostGrain
+    public interface IGrainEvent<TType>
     {
-        private Post? state;
-        private readonly IDocumentStore store;
+        void Apply(TType state);
+    }
 
-        public PostGrain(IDocumentStore store)
-        {
-            this.store = store;
-        }        
+    public class NewPostEvent : IGrainEvent<Post>
+    {
+        private Post post;
 
-        public override Task OnActivateAsync(CancellationToken cancellationToken)
+        public NewPostEvent(Post post)
         {
-            var key = this.GetPrimaryKey();
-            this.state = store.Get<Post>(key);
-            if (this.state == null)
-            {
-                this.state = new Post() { Id = key };
-                store.Put(key, state);
-            }            
-            return base.OnActivateAsync(cancellationToken);
+            this.post = post;
         }
 
-
-        public override Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)
+        public void Apply(Post state)
         {
-            var key = this.GetPrimaryKey();
-            this.store.Put(key, this.state);
-
-            return base.OnDeactivateAsync(reason, cancellationToken);
+            state.Author = post.Author;
+            state.Content = post.Content;
+            state.TimeStamp = post.TimeStamp;
+            state.State = GrainInterfaces.PostState.New;            
         }
+    }
 
+    [StorageProvider(ProviderName = "File")]
+    public class PostGrain : JournaledGrain<Post, IGrainEvent<Post>>, IPostGrain
+    {                     
         public async Task<Post> GetContent()
         {
-            return state;
+            return this.State;
         }
 
         public Task Post(Post post)
         {
-            this.state.Author = post.Author;
-            this.state.Content = post.Content;
-            this.state.TimeStamp = post.TimeStamp;
-            this.state.State = GrainInterfaces.PostState.New;
-
-            var key = this.GetPrimaryKey();
-            store.Put(key, state);
+            RaiseEvent(new NewPostEvent(post));
+            
+            //var key = this.GetPrimaryKey();
+            //store.Put(key, state);
             return Task.CompletedTask;
+
         }
     }
 }

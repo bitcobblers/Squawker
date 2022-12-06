@@ -19,6 +19,15 @@ public class PhysicalFileWriter : IFileWriter
         this.fileProvider = fileProvider;
     }
 
+    public void Delete(string filename)
+    {
+        var path = Path.Combine(this.directoryInfo.PhysicalPath, filename);
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+        }
+    }
+
     public IDirectoryContents GetDirectoryContents(string subpath)
     {
         return this.fileProvider.GetDirectoryContents(subpath);

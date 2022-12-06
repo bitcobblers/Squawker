@@ -1,11 +1,15 @@
 ﻿using GrainInterfaces.Model;
 using GrainInterfaces.State;
+using Orleans;
+using Orleans.EventSourcing;
+using Orleans.Providers;
 
 namespace Grains.State
 {
-    public class ProfileGrain : Grain, IProfileGrain
-    {
-        private Profile State = null;
+
+    [StorageProvider(ProviderName = "File")]
+    public class ProfileGrain : JournaledGrain<Profile, IGrainEvent<Profile>>, IProfileGrain
+    {        
         public async Task Follow()
         {
             return;

@@ -11,10 +11,7 @@ namespace Tests
     {
         public void Configure(ISiloBuilder siloBuilder)
         {
-            siloBuilder.ConfigureServices(services =>
-            {
-                services.AddSingleton<IDocumentStore, InMemoryDocumentStore>();
-            });
+            siloBuilder.AddMemoryGrainStorage("File");
         }
     }
 
