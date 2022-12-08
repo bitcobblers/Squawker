@@ -1,55 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Orleans.Configuration;
-using Orleans.Configuration.Overrides;
 using Orleans.Runtime;
 using Orleans.Storage;
 using System.Text.Json;
 
 namespace Grains.DocumentData
 {
-
-    public static class FileSiloBuilderExtensions
-    {
-        public static ISiloBuilder AddFileGrainStorage(
-            this ISiloBuilder builder,
-            string providerName,
-            Action<FileGrainStorageOptions> options)
-        {
-            return builder.ConfigureServices(
-                services => services.AddFileGrainStorage(providerName, options));
-        }
-
-        public static IServiceCollection AddFileGrainStorage(
-            this IServiceCollection services,
-            string providerName,
-            Action<FileGrainStorageOptions> options)
-        {
-            services.AddOptions<FileGrainStorageOptions>(providerName).Configure(options);
-
-            return services.AddSingletonNamedService(providerName, FileGrainStorageFactory.Create)
-                .AddSingletonNamedService(
-                    providerName,
-                    (s, n) => (ILifecycleParticipant<ISiloLifecycle>)s.GetRequiredServiceByName<IGrainStorage>(n));
-        }
-    }
-
-    public static class FileGrainStorageFactory
-    {
-        internal static IGrainStorage Create(
-            IServiceProvider services, string name)
-        {
-            IOptionsSnapshot<FileGrainStorageOptions> optionsSnapshot =
-                services.GetRequiredService<IOptionsSnapshot<FileGrainStorageOptions>>();
-
-            return ActivatorUtilities.CreateInstance<FileGrainStorage>(
-                services,
-                name,
-                optionsSnapshot.Get(name),
-                services.GetProviderClusterOptions(name));
-        }
-    }
 
     public class FileGrainStorage
         : IGrainStorage, ILifecycleParticipant<ISiloLifecycle>
@@ -81,9 +37,14 @@ namespace Grains.DocumentData
             var filename = this._options.FileNamer.Get<T>(this._clusterOptions.ServiceId, grainId.GetGuidKey());            
             var fileInfo = this._options.RootDirectory.GetFileInfo(filename);
 
-            grainState.State = fileInfo?.Exists ?? false
-                ? JsonSerializer.Deserialize<T>(fileInfo.CreateReadStream())
-                : Activator.CreateInstance<T>();
+            if (fileInfo == null || !fileInfo.Exists) {
+                grainState.State = Activator.CreateInstance<T>();
+            }
+            else
+            {
+                var stream = fileInfo?.CreateReadStream() ?? new MemoryStream();
+                grainState.State = JsonSerializer.Deserialize<T>(stream);
+            }            
 
             grainState.ETag = fileInfo.LastModified.ToString();
             return Task.CompletedTask;

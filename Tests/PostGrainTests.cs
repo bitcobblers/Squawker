@@ -11,7 +11,8 @@ namespace Tests
     {
         public void Configure(ISiloBuilder siloBuilder)
         {
-            siloBuilder.AddMemoryGrainStorage("File");
+            siloBuilder.AddMemoryGrainStorage("Document");
+            siloBuilder.AddMemoryGrainStorage("Relational");
         }
     }
 

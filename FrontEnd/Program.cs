@@ -45,7 +45,7 @@ static async Task<IHost> StartSiloAsync(IFileWriter storage)
     builder.UseOrleans(c =>
         {
             var cluster = c.UseLocalhostClustering();            
-            cluster.AddFileGrainStorage("File", opt =>
+            cluster.AddFileGrainStorage("Document", opt =>
             {
                 opt.RootDirectory = storage;
             });

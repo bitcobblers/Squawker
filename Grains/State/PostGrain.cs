@@ -28,7 +28,7 @@ namespace Grains.State
         }
     }
 
-    [StorageProvider(ProviderName = "File")]
+    [StorageProvider(ProviderName = "Document")]
     public class PostGrain : JournaledGrain<Post, IGrainEvent<Post>>, IPostGrain
     {                     
         public async Task<Post> GetContent()
