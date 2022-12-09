@@ -49,6 +49,7 @@ static async Task<IHost> StartSiloAsync(IFileWriter storage)
             {
                 opt.RootDirectory = storage;
             });
+            cluster.AddMemoryGrainStorage("Relational");
             cluster.Configure<ClusterOptions>(options =>
                 {
                     options.ClusterId = "dev";

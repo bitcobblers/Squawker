@@ -2,6 +2,11 @@
 
 namespace GrainInterfaces
 {
+    public interface ICreateHashTagsGrain : IGrainWithIntegerKey
+    {
+        Task Create(Post post);
+    }
+
     public interface IFeedGrain: IGrainWithIntegerKey
     {
         Task<Post[]> Get(string feedName);
