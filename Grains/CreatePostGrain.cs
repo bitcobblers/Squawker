@@ -20,14 +20,14 @@ namespace Grains
 
         public async Task Create(Post post)
         {
-            var hashTags = this.hashTags.Matches(post.Content);
-            if (hashTags.Count == 0)
+            var hashTags = post.Content.SelectMany(section => this.hashTags.Matches(section.Body));
+            if (!hashTags.Any())
             {
                 return;
             }
             
             var postGrain = this.client.GetGrain<IPostGrain>(post.Id);
-            var results = new List<Task<HastTagLink>>(); 
+            var results = new List<Task<HashTagLink>>(); 
             foreach (Match hashTag in hashTags)
             {
                 var hasTag = this.client.GetGrain<IHashTagGrain>(hashTag.Value);
@@ -50,10 +50,10 @@ namespace Grains
             this.client = client;
         }
 
-        public async Task<Post> Create(Post post, Guid author)
+        public async Task<Post> Create(Post post)
         {
             var postGrain = this.client.GetGrain<IPostGrain>(post.Id);
-            var authorGrain = this.client.GetGrain<IProfileGrain>(author);
+            var authorGrain = this.client.GetGrain<IProfileGrain>(post.Author);
             
             // process for hashtags and notify the hashtag actors.
 

@@ -1,5 +1,6 @@
 ﻿using GrainInterfaces.Model;
 using GrainInterfaces.State;
+using Grains.RelationalData;
 using Orleans.EventSourcing;
 using Orleans.Providers;
 
@@ -34,6 +35,11 @@ namespace Grains.State
         public async Task<Post> GetContent()
         {
             return this.State;
+        }
+
+        public Task LinkHashTags(HashTagLink[] tags)
+        {
+            throw new NotImplementedException();
         }
 
         public Task Post(Post post)

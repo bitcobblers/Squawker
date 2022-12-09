@@ -38,11 +38,11 @@ namespace Grains.State
         private readonly IRelationalStore store;
         private readonly IClusterClient client;
         private readonly int takeLimit = 1000;
-        private FixedSizedQueue<HastTagLink> links;
+        private FixedSizedQueue<HashTagLink> links;
 
         public HashTagGrain(IRelationalStore store, IClusterClient client)
         {
-            this.links = new FixedSizedQueue<HastTagLink>(this.takeLimit);
+            this.links = new FixedSizedQueue<HashTagLink>(this.takeLimit);
             this.store = store;
             this.client = client;
         }
@@ -61,13 +61,15 @@ namespace Grains.State
             return base.OnActivateAsync(cancellationToken);
         }
         
-        public Task PushPost(Post post)
+
+        public async Task<HashTagLink> Link(Post post)
         {
-            var link = new HastTagLink() { Name = this.IdentityString, Post = post.Id };
-            this.links.Enqueue(link);
-            this.store.HashTagLinks.Add(link);            
+            var link = new HashTagLink() { Name = this.IdentityString, Post = post.Id };
             
-            return Task.CompletedTask;
+            await this.store.HashTagLinks.AddAsync(link);           
+            this.links.Enqueue(link);
+
+            return link;
         }
 
         public async Task<Post[]> GetPosts()
@@ -78,5 +80,7 @@ namespace Grains.State
             
             return await Task.WhenAll(tasks);
         }
+
+       
     }
 }

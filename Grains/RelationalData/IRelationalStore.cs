@@ -4,7 +4,7 @@ namespace Grains.RelationalData
 {
     public interface IRelationalStore
     {
-        DbSet<HastTagLink> HashTagLinks { get; set; }
+        DbSet<HashTagLink> HashTagLinks { get; set; }
         
         DbSet<PostView> PostViews { get; set; }
 

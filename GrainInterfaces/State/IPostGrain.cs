@@ -7,7 +7,7 @@ namespace GrainInterfaces.State
     public interface IPostGrain : IGrainWithGuidKey
     {
         Task<Post> GetContent();
-        Task LinkHashTags(HastTagLink[] tags);
+        Task LinkHashTags(HashTagLink[] tags);
         Task Post(Post post);
     }
 }

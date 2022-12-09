@@ -14,6 +14,6 @@ namespace GrainInterfaces
 
     public interface ICreatePostGrain: IGrainWithIntegerKey
     {
-        Task<Post>  Create(Post post, Guid author);
+        Task<Post>  Create(Post post);
     }
 }

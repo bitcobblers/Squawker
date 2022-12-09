@@ -9,10 +9,10 @@ namespace Grains
     {
         public Task<Post[]> Get(string feedName)
         {
-            var result = new[] { 
-                new Post() { Content = "This is a test1" },
-                new Post() { Content = "This is a test2" },    
-                new Post() { Content = "This is a test3" },                
+            var result = new Post[] { 
+                new PostBuilder(TextSection.From("This is a test1")),
+                new PostBuilder(TextSection.From("This is a test2")),    
+                new PostBuilder(TextSection.From("This is a test3")),                
             };
 
             return Task.FromResult(result);

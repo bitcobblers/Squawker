@@ -24,7 +24,7 @@ namespace FrontEnd.Controllers
             var grain = this.client.GetGrain<ICreatePostGrain>(0);
             var tagsGrain = this.client.GetGrain<ICreateHashTagsGrain>(0);
 
-            var result = await grain.Create(new Post() { Id=Guid.NewGuid(), Content = post }, Guid.NewGuid());
+            var result = await grain.Create(new Post() { Id = Guid.NewGuid(), Content = new ContentSection[] { TextSection.From(post) }, Author = Guid.NewGuid() });
             await tagsGrain.Create(result);
             return result;
         }

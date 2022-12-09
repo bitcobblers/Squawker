@@ -2,12 +2,26 @@
 
 namespace Grains.RelationalData
 {
-    public class HastTagLink : RelationalEvent
+    public enum HashTagLinkState
+    {        
+        Created = 1,
+        Moderated = 2,
+        Unauthorized = 4,
+        Deleted = 8,
+    }
+
+    [GenerateSerializer]
+    public class HashTagLink : RelationalEvent
     {
         [Key]
+        [Id(0)]
         public string Name { get; set; }
         
         [Key]
-        public Guid Post { get; set; }                
+        [Id(1)]
+        public Guid Post { get; set; }
+
+        [Id(2)]
+        public HashTagLinkState State { get; set; }
     }
 }

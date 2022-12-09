@@ -1,6 +1,27 @@
-﻿namespace GrainInterfaces.Model
-{
+﻿using Grains.RelationalData;
+using System.Runtime.CompilerServices;
 
+namespace GrainInterfaces.Model
+{
+    public static class TextSection 
+    {
+        public static ContentSection From(string content)
+        {
+        return new ContentSection()
+        {
+            ContentType = "text",
+            Body = content
+        };
+        }
+    }
+
+    public class PostBuilder : Post
+    {
+        public PostBuilder(params ContentSection[] sections) 
+        {
+            this.Content = sections;
+        }
+    }
 
     [GenerateSerializer]
     public class Post
@@ -11,34 +32,35 @@
         public Guid Id { get; set; } = Guid.Empty;
         [Id(1)]
         public Guid Author { get; set; } = Guid.Empty;
-
+        
         #endregion
 
         #region Content 
 
-        [Id(2)]
+        [Id(3)]
         public PostState State { get; set; } = PostState.None;
 
-        [Id(3)]
+        [Id(4)]
         public DateTime TimeStamp { get; set; } = DateTime.UtcNow;
 
-        [Id(4)]
-        public string Content { get; set; }
-
-
-        #endregion
-
-        #region Links
+        [Id(2)]
+        public Guid? ReplyTo { get; set; }
 
         [Id(5)]
-        public Guid ReplyTo { get; set; } = Guid.Empty;
-
+        public HashTagLink[] HashTags { get; set; } = new HashTagLink[0];
+                
         [Id(6)]
-        public Guid[] Replies { get; set; } = new Guid[0];
-
-        [Id(7)]
-        public Guid[] HashTags { get; set; } = new Guid[0];
+        public ContentSection[] Content { get; set; }
 
         #endregion
+    }
+
+    [GenerateSerializer]
+    public class ContentSection
+    {
+        [Id(0)]
+        public string ContentType { get; set; }
+        [Id(1)]
+        public string Body { get; set; }
     }
 }
