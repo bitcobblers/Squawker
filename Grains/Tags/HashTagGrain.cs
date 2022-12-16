@@ -5,7 +5,7 @@ using Grains.RelationalData;
 using System.Collections;
 using System.Collections.Concurrent;
 
-namespace Grains.State
+namespace Grains.Tags
 {
     public class FixedSizedQueue<T> : IEnumerable<T>
     {
@@ -43,38 +43,38 @@ namespace Grains.State
 
         public HashTagGrain(IRelationalStore store, IClusterClient client)
         {
-            this.links = new FixedSizedQueue<HashTagLink>(this.takeLimit);
+            links = new FixedSizedQueue<HashTagLink>(takeLimit);
             this.store = store;
             this.client = client;
         }
 
         public override Task OnActivateAsync(CancellationToken cancellationToken)
         {
-            foreach (var link in this.store.HashTagLinks
-                .Where(n => n.Name == this.IdentityString)
+            foreach (var link in store.HashTagLinks
+                .Where(n => n.Name == IdentityString)
                 .OrderByDescending(n => n.TimeStamp)
                 .Take(takeLimit)
                 .ToArray())
             {
-                this.links.Enqueue(link);
+                links.Enqueue(link);
             }
 
             return base.OnActivateAsync(cancellationToken);
         }
-        
+
 
         public async Task<HashTagLink> Link(Post post)
         {
-            var link = new HashTagLink() { Name = this.IdentityString, Post = post.Id, ProfileId = post.Author  };
-            
-            await this.store.HashTagLinks.AddAsync(link);           
-            this.links.Enqueue(link);
+            var link = new HashTagLink() { Name = IdentityString, Post = post.Id, ProfileId = post.Author };
+
+            await store.HashTagLinks.AddAsync(link);
+            links.Enqueue(link);
 
             return link;
         }
 
-        public Task<Guid[]> Posts() => Task.FromResult(this.links
+        public Task<Guid[]> Posts() => Task.FromResult(links
             .Select(n => n.Post)
-            .ToArray());               
+            .ToArray());
     }
 }

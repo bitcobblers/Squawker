@@ -1,7 +1,6 @@
 ﻿using GrainInterfaces;
 using GrainInterfaces.Model;
 using GrainInterfaces.Posts;
-using GrainInterfaces.Tags;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrontEnd.Controllers
@@ -20,25 +19,30 @@ namespace FrontEnd.Controllers
             this.logger = logger;
         }
 
-        [HttpPost]
-        public async Task<Post> Post([FromBody]string post)
-        {
-            var grain = this.client.GetGrain<ICreatePostGrain>(0);
-            var tagsGrain = this.client.GetGrain<ICreateHashTagsGrain>(0);
-
-            var result = await grain.Create(new Post() { Id = Guid.NewGuid(), Content = new ContentSection[] { TextSection.From(post) }, Author = Guid.NewGuid() });
-            await tagsGrain.Create(result);
-            return result;
-        }
-
-
         [HttpGet]
         public async Task<Post[]> Get()
         {
-            var userName = string.Empty;
             var grain = this.client.GetGrain<IFeedGrain>(0);
+            var userName = string.Empty;
             
-            return await grain.Get(userName);            
+            return await grain.Get(userName);
+        }
+
+        [HttpPost]
+        public async Task<Post> Post([FromBody]string post)
+        {
+            var userId = Guid.NewGuid();
+            var grain = this.client.GetGrain<ICreatePostGrain>(0);
+            var result = await grain.Create(new RequestPost() 
+            { 
+                Id = Guid.NewGuid(),
+                Author = userId,
+                Content = new ContentSection[] { 
+                    TextSection.From(post) 
+                },                 
+            });            
+
+            return result;
         }
     }
 }

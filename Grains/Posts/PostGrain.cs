@@ -4,7 +4,7 @@ using GrainInterfaces.Posts;
 using Orleans.EventSourcing;
 using Orleans.Providers;
 
-namespace Grains.State
+namespace Grains.Posts
 {
     public interface IGrainEvent<TType>
     {
@@ -25,16 +25,16 @@ namespace Grains.State
             state.Author = post.Author;
             state.Content = post.Content;
             state.TimeStamp = post.TimeStamp;
-            state.State = PostState.New;            
+            state.State = PostState.New;
         }
     }
 
     [StorageProvider(ProviderName = "Document")]
     public class PostGrain : JournaledGrain<Post, IGrainEvent<Post>>, IPostGrain
-    {                     
+    {
         public async Task<Post> Get()
         {
-            return this.State;
+            return State;
         }
 
         public Task Tag(HashTagLink[] tags)
@@ -47,7 +47,7 @@ namespace Grains.State
             throw new NotImplementedException();
         }
 
-        
+
         public Task<Post> Post(RequestPost post)
         {
             RaiseEvent(new NewPostEvent(post));

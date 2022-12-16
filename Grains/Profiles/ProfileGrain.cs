@@ -4,14 +4,14 @@ using Orleans;
 using Orleans.EventSourcing;
 using Orleans.Providers;
 
-namespace Grains.State
+namespace Grains.Profiles
 {
 
 
 
     [StorageProvider(ProviderName = "File")]
     public class ProfileGrain : JournaledGrain<Profile, IGrainEvent<Profile>>, IProfileGrain
-    {        
+    {
         public async Task Follow()
         {
             return;
@@ -29,7 +29,7 @@ namespace Grains.State
 
         public async Task SetPost(Post post)
         {
-            return ;
+            return;
         }
     }
 }
