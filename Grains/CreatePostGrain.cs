@@ -1,9 +1,8 @@
-﻿using GrainInterfaces;
-using GrainInterfaces.Model;
+﻿using GrainInterfaces.Model;
+using GrainInterfaces.Model.Index;
 using GrainInterfaces.Posts;
 using GrainInterfaces.Profiles;
-using GrainInterfaces.State;
-using Grains.RelationalData;
+using GrainInterfaces.Tags;
 using Orleans.Concurrency;
 using System.Text.RegularExpressions;
 

@@ -1,10 +1,9 @@
 ﻿using GrainInterfaces.Model;
 
-namespace GrainInterfaces
+namespace GrainInterfaces.Posts
 {
-
-    public interface ICreatePostGrain: IGrainWithIntegerKey
+    public interface ICreatePostGrain : IGrainWithIntegerKey
     {
-        Task<Post>  Create(RequestPost post);
+        Task<Post> Create(RequestPost post);
     }
 }

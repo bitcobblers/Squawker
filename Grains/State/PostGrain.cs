@@ -1,6 +1,6 @@
 ﻿using GrainInterfaces.Model;
+using GrainInterfaces.Model.Index;
 using GrainInterfaces.Posts;
-using Grains.RelationalData;
 using Orleans.EventSourcing;
 using Orleans.Providers;
 

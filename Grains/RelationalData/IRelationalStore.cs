@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GrainInterfaces.Model.Index;
+using Microsoft.EntityFrameworkCore;
 
 namespace Grains.RelationalData
 {

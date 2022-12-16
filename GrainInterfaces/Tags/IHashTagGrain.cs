@@ -1,7 +1,7 @@
 ﻿using GrainInterfaces.Model;
-using Grains.RelationalData;
+using GrainInterfaces.Model.Index;
 
-namespace GrainInterfaces.State
+namespace GrainInterfaces.Tags
 {
     public interface IHashTagGrain : IGrainWithStringKey
     {

@@ -1,5 +1,7 @@
 ﻿using GrainInterfaces;
 using GrainInterfaces.Model;
+using GrainInterfaces.Posts;
+using GrainInterfaces.Tags;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrontEnd.Controllers
