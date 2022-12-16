@@ -1,15 +1,10 @@
 ﻿using GrainInterfaces.Model;
 
-namespace GrainInterfaces.State
+namespace GrainInterfaces.Profiles
 {
+
     public interface IProfileGrain : IGrainWithGuidKey
     {
         Task<Profile> Get();
-
-        Task Follow();
-
-        Task Friend();
-
-        Task SetPost(Post post);
     }
 }

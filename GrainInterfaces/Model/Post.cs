@@ -1,4 +1,4 @@
-﻿using Grains.RelationalData;
+﻿using GrainInterfaces.Model.Index;
 using System.Runtime.CompilerServices;
 
 namespace GrainInterfaces.Model
@@ -21,6 +21,11 @@ namespace GrainInterfaces.Model
         {
             this.Content = sections;
         }
+    }
+
+    public class RequestPost : Post
+    {
+
     }
 
     [GenerateSerializer]

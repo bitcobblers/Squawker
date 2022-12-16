@@ -1,5 +1,5 @@
 ﻿namespace GrainInterfaces.Model
-{          
+{
     [GenerateSerializer]
     public class HashTag : IPostLink
     {

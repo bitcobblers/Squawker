@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Grains.RelationalData
+namespace GrainInterfaces.Model.Index
 {
     public class ProfileFollow : RelationalEvent
     {

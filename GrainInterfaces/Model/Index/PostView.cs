@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Grains.RelationalData
+namespace GrainInterfaces.Model.Index
 {
     public class PostView : RelationalEvent
     {
@@ -8,6 +8,6 @@ namespace Grains.RelationalData
         public Guid Post { get; set; }
 
         [Key]
-        public Guid Visitor { get; set; }            
+        public Guid Visitor { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using GrainInterfaces;
 using GrainInterfaces.Model;
-using GrainInterfaces.State;
+using GrainInterfaces.Posts;
 using Grains.DocumentData;
 using Microsoft.Extensions.DependencyInjection;
 using Orleans.TestingHost;
@@ -55,7 +55,7 @@ namespace Tests
             var createdPost = await post.Create(new GrainInterfaces.Model.Post { Content = new [] { TextSection.From("Hello, World") }, Author = Guid.NewGuid() });
 
             var postGrain = _cluster.GrainFactory.GetGrain<IPostGrain>(createdPost.Id);
-            var greeting = await postGrain.GetContent();
+            var greeting = await postGrain.Get();
 
             Assert.Equal("Hello, World", greeting.Content.First().Body);
         }

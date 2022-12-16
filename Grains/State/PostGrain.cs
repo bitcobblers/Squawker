@@ -1,5 +1,5 @@
 ﻿using GrainInterfaces.Model;
-using GrainInterfaces.State;
+using GrainInterfaces.Posts;
 using Grains.RelationalData;
 using Orleans.EventSourcing;
 using Orleans.Providers;
@@ -25,31 +25,36 @@ namespace Grains.State
             state.Author = post.Author;
             state.Content = post.Content;
             state.TimeStamp = post.TimeStamp;
-            state.State = GrainInterfaces.PostState.New;            
+            state.State = PostState.New;            
         }
     }
 
     [StorageProvider(ProviderName = "Document")]
     public class PostGrain : JournaledGrain<Post, IGrainEvent<Post>>, IPostGrain
     {                     
-        public async Task<Post> GetContent()
+        public async Task<Post> Get()
         {
             return this.State;
         }
 
-        public Task LinkHashTags(HashTagLink[] tags)
+        public Task Tag(HashTagLink[] tags)
         {
+            if (tags is null)
+            {
+                throw new ArgumentNullException(nameof(tags));
+            }
+
             throw new NotImplementedException();
         }
 
-        public Task Post(Post post)
+        
+        public Task<Post> Post(RequestPost post)
         {
             RaiseEvent(new NewPostEvent(post));
-            
+
             //var key = this.GetPrimaryKey();
             //store.Put(key, state);
             return Task.CompletedTask;
-
         }
     }
 }

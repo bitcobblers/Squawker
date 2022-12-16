@@ -6,6 +6,6 @@ namespace GrainInterfaces.State
     public interface IHashTagGrain : IGrainWithStringKey
     {
         Task<HashTagLink> Link(Post post);
-        Task<Post[]> GetPosts();
+        Task<Guid[]> Posts();
     }
 }

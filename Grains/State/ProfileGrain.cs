@@ -1,11 +1,13 @@
 ﻿using GrainInterfaces.Model;
-using GrainInterfaces.State;
+using GrainInterfaces.Profiles;
 using Orleans;
 using Orleans.EventSourcing;
 using Orleans.Providers;
 
 namespace Grains.State
 {
+
+
 
     [StorageProvider(ProviderName = "File")]
     public class ProfileGrain : JournaledGrain<Profile, IGrainEvent<Profile>>, IProfileGrain

@@ -1,5 +1,7 @@
 ﻿using GrainInterfaces;
 using GrainInterfaces.Model;
+using GrainInterfaces.Posts;
+using GrainInterfaces.Profiles;
 using GrainInterfaces.State;
 using Grains.RelationalData;
 using Orleans.Concurrency;
@@ -34,7 +36,7 @@ namespace Grains
                 results.Add(hasTag.Link(post));                
             }
             var tags = await Task.WhenAll(results);
-            await postGrain.LinkHashTags(tags);
+            await postGrain.Tag(tags);
 
             return;
         }
@@ -50,17 +52,17 @@ namespace Grains
             this.client = client;
         }
 
-        public async Task<Post> Create(Post post)
+        public async Task<Post> Create(RequestPost post)
         {
             var postGrain = this.client.GetGrain<IPostGrain>(post.Id);
-            var authorGrain = this.client.GetGrain<IProfileGrain>(post.Author);
-            
+            var authorGrain = this.client.GetGrain<IProfilePosts>(post.Author);
+            var hashtag = this.client.GetGrain<ILi>
             // process for hashtags and notify the hashtag actors.
 
 
-            await Task.WhenAll(
-                postGrain.Post(post),
-                authorGrain.SetPost(post));
+            var test = await Task.WhenAll(
+                postGrain.Post((RequestPost)post),                
+                authorGrain.PostCreated(post));
             
             return post;
         }

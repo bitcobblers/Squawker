@@ -1,4 +1,4 @@
-﻿namespace Grains.RelationalData
+﻿namespace GrainInterfaces.Model.Index
 {
     [GenerateSerializer]
     public abstract class RelationalEvent

@@ -1,5 +1,7 @@
 ﻿namespace GrainInterfaces.Model
-{
+{ 
+
+
     [GenerateSerializer]
     public class Profile
     {

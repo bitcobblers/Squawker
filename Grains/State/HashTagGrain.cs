@@ -1,5 +1,6 @@
 ﻿using GrainInterfaces.Model;
-using GrainInterfaces.State;
+using GrainInterfaces.Model.Index;
+using GrainInterfaces.Tags;
 using Grains.RelationalData;
 using System.Collections;
 using System.Collections.Concurrent;
@@ -64,7 +65,7 @@ namespace Grains.State
 
         public async Task<HashTagLink> Link(Post post)
         {
-            var link = new HashTagLink() { Name = this.IdentityString, Post = post.Id };
+            var link = new HashTagLink() { Name = this.IdentityString, Post = post.Id, ProfileId = post.Author  };
             
             await this.store.HashTagLinks.AddAsync(link);           
             this.links.Enqueue(link);
@@ -72,15 +73,8 @@ namespace Grains.State
             return link;
         }
 
-        public async Task<Post[]> GetPosts()
-        {
-            var tasks = this.links
-                .Select(n => client.GetGrain<IPostGrain>(n.Post).GetContent())
-                .ToArray();
-            
-            return await Task.WhenAll(tasks);
-        }
-
-       
+        public Task<Guid[]> Posts() => Task.FromResult(this.links
+            .Select(n => n.Post)
+            .ToArray());               
     }
 }
