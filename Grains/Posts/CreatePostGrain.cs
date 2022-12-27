@@ -1,6 +1,7 @@
 ﻿using GrainInterfaces.Model;
 using GrainInterfaces.Posts;
 using GrainInterfaces.Profiles;
+using GrainInterfaces.States;
 using GrainInterfaces.Tags;
 using Orleans.Concurrency;
 
@@ -17,7 +18,7 @@ namespace Grains.Posts
             this.client = client;
         }
 
-        public async Task<Post> Create(RequestPost post)
+        public async Task<Post> Create(CreatePostRequest post)
         {
             var createTags = client.GetGrain<ICreateHashTagsGrain>(0);
             var authorGrain = client.GetGrain<IProfilePosts>(post.Author);

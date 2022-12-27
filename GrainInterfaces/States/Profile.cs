@@ -1,5 +1,5 @@
-﻿namespace GrainInterfaces.Model
-{ 
+﻿namespace GrainInterfaces.States
+{
 
 
     [GenerateSerializer]

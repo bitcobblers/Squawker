@@ -1,9 +1,11 @@
-﻿using GrainInterfaces.Model;
+﻿using GrainInterfaces.States;
 
 namespace GrainInterfaces.Posts
 {
-    public interface IPostEngamentTrackingGrain : IGrainWithGuidKey
+    public interface IPostTrackingGrain : IGrainWithGuidKey
     {
-        Task Track(IEngamentTrackingEvent @event);
+        Task Track(IStatisticsEvent @event);
+
+        Task<Statistics> Get();
     }
 }

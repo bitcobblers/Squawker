@@ -1,5 +1,6 @@
 ﻿using GrainInterfaces;
 using GrainInterfaces.Model;
+using GrainInterfaces.States;
 using Orleans.Concurrency;
 
 namespace Grains
@@ -9,10 +10,11 @@ namespace Grains
     {
         public Task<Post[]> Get(string feedName)
         {
+            var user = Guid.NewGuid();
             var result = new Post[] { 
-                new PostBuilder(TextSection.From("This is a test1")),
-                new PostBuilder(TextSection.From("This is a test2")),    
-                new PostBuilder(TextSection.From("This is a test3")),                
+                new SimpleTextRequest("This is a test1", user),
+                new SimpleTextRequest("This is a test2", user),    
+                new SimpleTextRequest("This is a test3", user),                
             };
 
             return Task.FromResult(result);

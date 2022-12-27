@@ -1,6 +1,7 @@
 ﻿using GrainInterfaces;
 using GrainInterfaces.Model;
 using GrainInterfaces.Posts;
+using GrainInterfaces.States;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrontEnd.Controllers
@@ -33,14 +34,7 @@ namespace FrontEnd.Controllers
         {
             var userId = Guid.NewGuid();
             var grain = this.client.GetGrain<ICreatePostGrain>(0);
-            var result = await grain.Create(new RequestPost() 
-            { 
-                Id = Guid.NewGuid(),
-                Author = userId,
-                Content = new ContentSection[] { 
-                    TextSection.From(post) 
-                },                 
-            });            
+            var result = await grain.Create(new SimpleTextRequest(post, userId));
 
             return result;
         }

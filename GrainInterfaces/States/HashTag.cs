@@ -1,4 +1,6 @@
-﻿namespace GrainInterfaces.Model
+﻿using GrainInterfaces.Model;
+
+namespace GrainInterfaces.States
 {
     [GenerateSerializer]
     public class HashTag : IPostLink

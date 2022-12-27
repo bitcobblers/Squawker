@@ -1,5 +1,6 @@
 ﻿using GrainInterfaces.Model;
 using GrainInterfaces.Model.Index;
+using GrainInterfaces.States;
 
 namespace GrainInterfaces.Posts
 {
@@ -8,7 +9,7 @@ namespace GrainInterfaces.Posts
     {
         Task<Post> Get();
 
-        Task<Post> Post(RequestPost post);
+        Task<Post> Post(CreatePostRequest post);
 
         Task Tag(HashTagLink[] tags);
     }

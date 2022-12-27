@@ -1,5 +1,5 @@
-﻿using GrainInterfaces.Model;
-using GrainInterfaces.Profiles;
+﻿using GrainInterfaces.Profiles;
+using GrainInterfaces.States;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FrontEnd.Controllers

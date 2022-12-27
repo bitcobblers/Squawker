@@ -1,4 +1,5 @@
 ﻿using GrainInterfaces.Model;
+using GrainInterfaces.States;
 
 namespace GrainInterfaces
 {

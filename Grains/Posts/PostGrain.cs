@@ -1,34 +1,12 @@
 ﻿using GrainInterfaces.Model;
 using GrainInterfaces.Model.Index;
 using GrainInterfaces.Posts;
+using GrainInterfaces.States;
 using Orleans.EventSourcing;
 using Orleans.Providers;
 
 namespace Grains.Posts
-{
-    public interface IGrainEvent<TType>
-    {
-        void Apply(TType state);
-    }
-
-    public class NewPostEvent : IGrainEvent<Post>
-    {
-        private Post post;
-
-        public NewPostEvent(Post post)
-        {
-            this.post = post;
-        }
-
-        public void Apply(Post state)
-        {
-            state.Author = post.Author;
-            state.Content = post.Content;
-            state.TimeStamp = post.TimeStamp;
-            state.State = PostState.New;
-        }
-    }
-
+{       
     [StorageProvider(ProviderName = "Document")]
     public class PostGrain : JournaledGrain<Post, IGrainEvent<Post>>, IPostGrain
     {
@@ -48,13 +26,12 @@ namespace Grains.Posts
         }
 
 
-        public Task<Post> Post(RequestPost post)
+        public Task<Post> Post(CreatePostRequest post)
         {
             RaiseEvent(new NewPostEvent(post));
-
             //var key = this.GetPrimaryKey();
             //store.Put(key, state);
-            return Task.CompletedTask;
+            return this.Get();  
         }
     }
 }

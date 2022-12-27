@@ -51,7 +51,7 @@ namespace Tests
         public async Task SaysHelloCorrectly()
         {
             var post = _cluster.GrainFactory.GetGrain<ICreatePostGrain>(0);
-            var createdPost = await post.Create(new GrainInterfaces.Model.Post { Content = new [] { TextSection.From("Hello, World") }, Author = Guid.NewGuid() });
+            var createdPost = await post.Create(new SimpleTextRequest("Hello, World", Guid.NewGuid()));
 
             var postGrain = _cluster.GrainFactory.GetGrain<IPostGrain>(createdPost.Id);
             var greeting = await postGrain.Get();
