@@ -21,7 +21,7 @@ namespace Grains.Posts
         public async Task<Post> Create(CreatePostRequest post)
         {
             var createTags = client.GetGrain<ICreateHashTagsGrain>(0);
-            var authorGrain = client.GetGrain<IProfilePosts>(post.Author);
+            var authorGrain = client.GetGrain<IProfilePostsGrain>(post.Author);
             var postGrain = client.GetGrain<IPostGrain>(post.Id);
 
             var createdPost = await postGrain.Post(post);

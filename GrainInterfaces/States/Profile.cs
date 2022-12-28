@@ -1,9 +1,13 @@
-﻿namespace GrainInterfaces.States
-{
+﻿using GrainInterfaces.Model;
 
+namespace GrainInterfaces.States
+{
+    public interface IProfileEvent : IGrainEvent<Profile>
+    {
+    }
 
     [GenerateSerializer]
-    public class Profile
+    public class Profile : EventJournaledState<Profile, IProfileEvent>
     {
         [Id(0)]
         public Guid AuthorId { get; set; } = Guid.Empty;

@@ -1,5 +1,4 @@
-﻿using GrainInterfaces.Model;
-using GrainInterfaces.Model.Index;
+﻿using GrainInterfaces.Model.Index;
 using GrainInterfaces.Posts;
 using GrainInterfaces.States;
 using GrainInterfaces.Tags;

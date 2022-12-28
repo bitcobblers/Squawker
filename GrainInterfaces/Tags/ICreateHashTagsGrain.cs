@@ -1,5 +1,4 @@
-﻿using GrainInterfaces.Model;
-using GrainInterfaces.States;
+﻿using GrainInterfaces.States;
 
 namespace GrainInterfaces.Tags
 {

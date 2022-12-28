@@ -4,7 +4,7 @@ using Orleans.EventSourcing;
 
 namespace Grains.Posts
 {
-    public class PostStatisticsGrain : JournaledGrain<Statistics, IStatisticsEvent>, IPostTrackingGrain
+    public class PostStatisticsGrain : EventJournaledGrain<Statistics, IStatisticsEvent>, IPostTrackingGrain
     {
         public Task Track(IStatisticsEvent @event)
         {            

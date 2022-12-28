@@ -1,15 +1,17 @@
 ﻿using GrainInterfaces.States;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GrainInterfaces.Model
 {
     [GenerateSerializer]
-    public class CreatePostRequest : Post
-    {        
+    public class CreatePostRequest : Post, IPostEvent
+    {
+        public void Apply(Post state)
+        {
+            state.Author = this.Author;
+            state.Content = this.Content;
+            state.TimeStamp = this.TimeStamp;
+            state.State = this.State;
+        }
     }
 
     [GenerateSerializer]

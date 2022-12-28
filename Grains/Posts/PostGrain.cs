@@ -8,7 +8,7 @@ using Orleans.Providers;
 namespace Grains.Posts
 {       
     [StorageProvider(ProviderName = "Document")]
-    public class PostGrain : JournaledGrain<Post, IGrainEvent<Post>>, IPostGrain
+    public class PostGrain : EventJournaledGrain<Post, IGrainEvent<Post>>, IPostGrain
     {
         public async Task<Post> Get()
         {
@@ -28,7 +28,7 @@ namespace Grains.Posts
 
         public Task<Post> Post(CreatePostRequest post)
         {
-            RaiseEvent(new NewPostEvent(post));
+            RaiseEvent(post);
             //var key = this.GetPrimaryKey();
             //store.Put(key, state);
             return this.Get();  

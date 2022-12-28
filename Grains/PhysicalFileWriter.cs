@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Primitives;
-using System.IO;
-using System.Text.Unicode;
 
 public class PhysicalFileWriter : IFileWriter
 {

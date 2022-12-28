@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.FileProviders;
-
-namespace Grains.DocumentData
+﻿namespace Grains.DocumentData
 {
 
     public class FileGrainStorageOptions

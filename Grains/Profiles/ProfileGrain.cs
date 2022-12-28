@@ -3,15 +3,23 @@ using GrainInterfaces.Profiles;
 using GrainInterfaces.States;
 using Orleans;
 using Orleans.EventSourcing;
+using Orleans.EventSourcing.CustomStorage;
 using Orleans.Providers;
 
 namespace Grains.Profiles
 {
-
-
+   
+    public class ProfilePostGrain : IProfilePostsGrain
+    {
+        public Task PostCreated(Post post)
+        {
+            Console.WriteLine("Test");
+            return Task.CompletedTask;
+        }
+    }
 
     [StorageProvider(ProviderName = "Memory")]
-    public class ProfileGrain : JournaledGrain<Profile, IGrainEvent<Profile>>, IProfileGrain
+    public class ProfileGrain : EventJournaledGrain<Profile, IGrainEvent<Profile>>, IProfileGrain
     {
         public async Task Follow()
         {

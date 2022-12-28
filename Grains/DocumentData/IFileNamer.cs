@@ -1,6 +1,4 @@
-﻿using GrainInterfaces.Model;
-
-namespace Grains.DocumentData
+﻿namespace Grains.DocumentData
 {
     public interface IFileNamer
     {

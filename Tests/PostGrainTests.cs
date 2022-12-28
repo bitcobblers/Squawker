@@ -1,7 +1,8 @@
 ﻿using GrainInterfaces.Model;
 using GrainInterfaces.Posts;
-using Grains.DocumentData;
 using Microsoft.Extensions.DependencyInjection;
+using Orleans.EventSourcing;
+using Orleans.EventSourcing.LogStorage;
 using Orleans.TestingHost;
 
 namespace Tests
@@ -13,6 +14,7 @@ namespace Tests
         {
             siloBuilder.AddMemoryGrainStorage("Document");
             siloBuilder.AddMemoryGrainStorage("Relational");
+            
         }
     }
 
@@ -21,8 +23,9 @@ namespace Tests
         public ClusterFixture()
         {
             var builder = new TestClusterBuilder();
+            
             builder.AddSiloBuilderConfigurator<TestSiloConfigurations>();
-            Cluster = builder.Build();
+            Cluster = builder.Build();            
             Cluster.Deploy();
         }
 

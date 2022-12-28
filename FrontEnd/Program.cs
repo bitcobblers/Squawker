@@ -1,6 +1,7 @@
 using Grains.DocumentData;
 using Microsoft.Extensions.FileProviders;
 using Orleans.Configuration;
+using Orleans.EventSourcing.LogStorage;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,7 +45,7 @@ static async Task<IHost> StartSiloAsync(IFileWriter storage)
             cluster.AddFileGrainStorage("Document", opt =>
             {
                 opt.RootDirectory = storage;
-            });
+            });            
             cluster.AddMemoryGrainStorage("Relational");
             cluster.Configure<ClusterOptions>(options =>
                 {

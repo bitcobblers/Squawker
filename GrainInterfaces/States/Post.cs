@@ -4,7 +4,7 @@ using GrainInterfaces.Model.Index;
 namespace GrainInterfaces.States
 {
     [GenerateSerializer]
-    public class Post
+    public class Post : EventJournaledState<Post, IPostEvent>
     {
         #region Keys 
 

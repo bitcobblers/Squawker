@@ -4,6 +4,7 @@ namespace GrainInterfaces.States
 {
     public interface IStatisticsEvent : IGrainEvent<Statistics> { }
 
+    [GenerateSerializer]
     public class PostViewEvent : IStatisticsEvent
     {        
         public void Apply(Statistics state)
@@ -12,6 +13,7 @@ namespace GrainInterfaces.States
         }
     }
 
+    [GenerateSerializer]
     public class PositivePostReactionEvent : IStatisticsEvent
     {        
         public void Apply(Statistics state)
@@ -20,6 +22,7 @@ namespace GrainInterfaces.States
         }
     }
 
+    [GenerateSerializer]
     public class NegativePostReactionEvent : IStatisticsEvent
     {
         public void Apply(Statistics state)
@@ -28,6 +31,7 @@ namespace GrainInterfaces.States
         }
     }
 
+    [GenerateSerializer]
     public class PostCommentEvent : IStatisticsEvent
     {
         public void Apply(Statistics state)
