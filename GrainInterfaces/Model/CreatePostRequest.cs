@@ -7,6 +7,7 @@ namespace GrainInterfaces.Model
     {
         public void Apply(Post state)
         {
+            state.Id = this.Id;
             state.Author = this.Author;
             state.Content = this.Content;
             state.TimeStamp = this.TimeStamp;

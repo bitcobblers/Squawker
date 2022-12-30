@@ -58,7 +58,7 @@ namespace Tests
             var postGrain = _cluster.GrainFactory.GetGrain<IPostGrain>(createdPost.Id);
             var greeting = await postGrain.Get();
 
-            Assert.Equal("Hello, World", greeting.Content.First().Body);
+            Assert.Equal("Hello, World", greeting.Content?.First()?.Body);
         }
 
         [Fact]

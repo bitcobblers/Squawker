@@ -21,7 +21,6 @@ namespace Grains.Posts
         {
             var statistics = client.GetGrain<IPostTrackingGrain>(this.GetPrimaryKey());
             await statistics.View();
-
             return State;
         }
 
