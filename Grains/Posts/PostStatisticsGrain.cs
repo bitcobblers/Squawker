@@ -1,10 +1,10 @@
 ﻿using GrainInterfaces.Posts;
 using GrainInterfaces.States;
-using Orleans.EventSourcing;
+
 
 namespace Grains.Posts
 {
-    public class PostStatisticsGrain : EventJournaledGrain<Statistics, IStatisticsEvent>, IPostTrackingGrain
+    public class PostStatisticsGrain : EventGrain<Statistics, IStatisticsEvent>, IPostTrackingGrain
     {
         public Task Track(IStatisticsEvent @event)
         {            

@@ -1,9 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Orleans.Runtime;
+﻿using Orleans.Runtime;
 using Orleans.Storage;
-using Orleans.Core;
-using Orleans.Configuration;
-
 
 namespace Grains.DocumentData
 {
@@ -26,8 +22,9 @@ namespace Grains.DocumentData
             services.AddOptions<FileGrainStorageOptions>(providerName).Configure(options);
 
             return services.AddSingletonNamedService(providerName, FileGrainStorageFactory.Create)
-                .AddSingletonNamedService(
-                    providerName);
+                 .AddSingletonNamedService(
+                    providerName,
+                    (s, n) => (ILifecycleParticipant<ISiloLifecycle>)s.GetRequiredServiceByName<IGrainStorage>(n));
         }
     }
 }

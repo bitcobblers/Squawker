@@ -1,7 +1,7 @@
 using Grains.DocumentData;
 using Microsoft.Extensions.FileProviders;
 using Orleans.Configuration;
-using Orleans.EventSourcing.LogStorage;
+using Orleans.Core;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -27,7 +27,6 @@
   <ItemGroup>
     <ProjectReference Include="..\FrontEnd\FrontEnd.csproj" />
     <ProjectReference Include="..\GrainInterfaces\GrainInterfaces.csproj" />
-    <ProjectReference Include="..\Grains\Grains.csproj" />
   </ItemGroup>
 
 </Project>

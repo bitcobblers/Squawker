@@ -20,6 +20,7 @@ namespace GrainInterfaces.Model
         public SimpleTextRequest() { }
         public SimpleTextRequest(string body, Guid user, Guid? reply = null)
         {
+            this.Id = Guid.NewGuid();
             this.State = PostState.New;
             this.Author = user;
             this.Content = new[] { new PostContentSection()

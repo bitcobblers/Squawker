@@ -8,7 +8,7 @@ namespace Grains.DocumentData
 {
 
     public class FileGrainStorage
-        : IGrainStorage
+        : IGrainStorage, ILifecycleParticipant<ISiloLifecycle>
     {
         private readonly string _storageName;
         private readonly FileGrainStorageOptions _options;
@@ -93,6 +93,14 @@ namespace Grains.DocumentData
             this._options.RootDirectory.Delete(filename);
 
             return Task.CompletedTask;
+        }
+
+        public void Participate(ISiloLifecycle observer)
+        {
+            observer.Subscribe(
+                OptionFormattingUtilities.Name<FileGrainStorage>(_storageName),
+                ServiceLifecycleStage.ApplicationServices,
+                Init);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using GrainInterfaces.Model;
+using GrainInterfaces.Posts;
 
 namespace GrainInterfaces.States
 {
@@ -14,11 +15,26 @@ namespace GrainInterfaces.States
     }
 
     [GenerateSerializer]
-    public class PositivePostReactionEvent : IStatisticsEvent
-    {        
+    public class PostReactionEvent : IStatisticsEvent
+    {
+        public PostReactionEvent()
+        {
+        }
+
+        public PostReactionEvent(IReaction reaction)
+        {
+            Reaction = reaction;
+        }
+
+        [Id(0)]
+        public IReaction? Reaction { get; set; }
+
         public void Apply(Statistics state)
         {
-            state.Points++;
+            if (this.Reaction != null)
+            {
+                state.Reactions.Add(this.Reaction.Categorty, this.Reaction.Value);
+            }
         }
     }
 
@@ -27,7 +43,7 @@ namespace GrainInterfaces.States
     {
         public void Apply(Statistics state)
         {
-            state.Points--;
+            state.Reactions.Add("Points", -1);
         }
     }
 

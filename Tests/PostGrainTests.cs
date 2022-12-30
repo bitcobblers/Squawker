@@ -1,9 +1,8 @@
 ﻿using GrainInterfaces.Model;
 using GrainInterfaces.Posts;
-using Microsoft.Extensions.DependencyInjection;
-using Orleans.EventSourcing;
-using Orleans.EventSourcing.LogStorage;
 using Orleans.TestingHost;
+using Orleans.Core;
+using Orleans.Runtime;
 
 namespace Tests
 {
@@ -13,9 +12,9 @@ namespace Tests
         public void Configure(ISiloBuilder siloBuilder)
         {
             siloBuilder.AddMemoryGrainStorage("Document");
-            siloBuilder.AddMemoryGrainStorage("Relational");
-            
-        }
+            siloBuilder.AddMemoryGrainStorage("Document");            
+
+        }   
     }
 
     public class ClusterFixture : IDisposable
@@ -60,6 +59,21 @@ namespace Tests
             var greeting = await postGrain.Get();
 
             Assert.Equal("Hello, World", greeting.Content.First().Body);
+        }
+
+        [Fact]
+        public async Task SaysHelloCorrectlyStatistics()
+        {
+            var post = _cluster.GrainFactory.GetGrain<ICreatePostGrain>(0);
+            
+            var createdPost = await post.Create(new SimpleTextRequest("Hello, World", Guid.NewGuid()));
+
+            var stats = _cluster.GrainFactory.GetGrain<IPostTrackingGrain>(createdPost.Id);
+            var postGrain = _cluster.GrainFactory.GetGrain<IPostGrain>(createdPost.Id);
+            var greeting = await postGrain.Get();
+            var views = await stats.Get();
+
+            Assert.Equal(1, views.Views);
         }
     }
 }
