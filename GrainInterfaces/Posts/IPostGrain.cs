@@ -9,8 +9,8 @@ namespace GrainInterfaces.Posts
     {
         Task<Post> Get();
 
-        Task<Post> Post(CreatePostRequest post);
+        Task<Post> Create(CreatePostRequest post);
 
-        Task Tag(HashTagLink[] tags);
+        Task<Post> Update(UpdatePostRequest post);
     }
 }

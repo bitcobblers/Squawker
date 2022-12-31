@@ -4,7 +4,7 @@ using GrainInterfaces.Model.Index;
 namespace GrainInterfaces.States
 {
     [GenerateSerializer]
-    public class Post : EventJournaledState<Post, IPostEvent>
+    public class Post 
     {
         #region Keys 
 
@@ -30,7 +30,10 @@ namespace GrainInterfaces.States
         public HashTagLink[] HashTags { get; set; } = new HashTagLink[0];
 
         [Id(6)]
-        public PostContentSection[] Content { get; set; }
+        public PostContentSection[] Content { get; set; } = new PostContentSection[0];
+
+
+        public bool Original { get; set; } = true;
 
         #endregion
     }

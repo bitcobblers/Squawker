@@ -3,7 +3,12 @@
     author: string
     state: string
     timeStamp: Date
-    content: string
+    content: IPostContentSection[]
     replyTo: string
-    replies: string[]
+    
+}
+
+export interface IPostContentSection {
+    contentType: string
+    body:string
 }

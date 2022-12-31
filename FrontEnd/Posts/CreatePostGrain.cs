@@ -23,13 +23,23 @@ namespace Grains.Posts
             var createTags = client.GetGrain<ICreateHashTagsGrain>(0);
             var authorGrain = client.GetGrain<IProfilePostsGrain>(post.Author);
             var postGrain = client.GetGrain<IPostGrain>(post.Id);
-
-            var createdPost = await postGrain.Post(post);
+            var replyFromTask = Task.CompletedTask;
+            
+            var createdPost = await postGrain.Create(post);
+            
+            if (post.ReplyTo.HasValue)
+            {
+                var replyTo = client.GetGrain<IPostGrain>(post.ReplyTo.Value);
+                // replyFromTask = replyTo.ReplyFrom(createdPost.Id);
+                
+            }
+                        
             await Task.WhenAll(
                 authorGrain.PostCreated(createdPost),
-                createTags.Create(createdPost));
+                createTags.Create(createdPost),
+                replyFromTask);
 
-            return await postGrain.Post(post);
+            return await postGrain.Create(post);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using GrainInterfaces.Model.Index;
+﻿using GrainInterfaces.Model;
+using GrainInterfaces.Model.Index;
 using GrainInterfaces.Posts;
 using GrainInterfaces.States;
 using GrainInterfaces.Tags;
@@ -34,7 +35,7 @@ namespace Grains.Tags
                 results.Add(hasTag.Link(post));
             }
             var tags = await Task.WhenAll(results);
-            await postGrain.Tag(tags);
+            await postGrain.Update(new UpdatePostRequest() {  HashTags = tags });
 
             return;
         }

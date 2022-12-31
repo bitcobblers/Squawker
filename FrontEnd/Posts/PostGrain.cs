@@ -8,7 +8,7 @@ using Orleans.Providers;
 namespace Grains.Posts
 {       
     [StorageProvider(ProviderName = "Document")]
-    public class PostGrain : EventGrain<Post, IGrainEvent<Post>>, IPostGrain
+    public class PostGrain : EventGrain<Post, IPostEvent>, IPostGrain
     {
         private readonly IClusterClient client;
 
@@ -24,20 +24,23 @@ namespace Grains.Posts
             return State;
         }
 
-        public Task Tag(HashTagLink[] tags)
-        {
-            if (tags is null)
-            {
-                throw new ArgumentNullException(nameof(tags));
-            }
-
-            throw new NotImplementedException();
-        }
-
-
-        public async Task<Post> Post(CreatePostRequest post)
+        public async Task<Post> Create(CreatePostRequest post)
         {
             return RaiseEvent(post);
         }
+
+        public async Task<Post> Update(UpdatePostRequest post)
+        {
+            return RaiseEvent(post);
+        }
+
+        //public Task ReplyToMessage(Guid source, Guid reply)
+        //{
+        //    var statistics = client.GetGrain<IPostTrackingGrain>(this.GetPrimaryKey());
+        //    statistics.Comment();
+
+        //    RaiseEvent(new Post());
+        //    return Task.CompletedTask;
+        //}
     }
 }

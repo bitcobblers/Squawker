@@ -4,6 +4,13 @@ namespace GrainInterfaces.States
 {
     public interface IPostEvent  : IGrainEvent<Post> { }
 
+    public class NewCommentEvent : IPostEvent
+    {
+        public void Apply(Post state)
+        {            
+        }
+    }
+
     public class NewPostEvent : IPostEvent
     {
         private Post post;

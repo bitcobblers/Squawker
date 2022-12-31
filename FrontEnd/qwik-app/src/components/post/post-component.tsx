@@ -14,7 +14,7 @@ export default component$((props: { post: IPost }) => {
                         <span class="text-sky-500 font-medium">User Name</span>
                         <span class="ml-4 font">21h</span>
                     </div>
-                    <div class="pt-2">{p.content}</div>
+                    <div class="pt-2">{p.content[0].body}</div>
                 </div>
             </div>
             <div class="flex p-2 border-t flex-row-reverse">                

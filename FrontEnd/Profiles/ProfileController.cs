@@ -2,7 +2,7 @@
 using GrainInterfaces.States;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FrontEnd.Controllers
+namespace FrontEnd.Profiles
 {
     [ApiController]
     [Route("[controller]")]
@@ -20,7 +20,7 @@ namespace FrontEnd.Controllers
         [HttpGet]
         public async Task<IEnumerable<Profile>> Get()
         {
-            var grain = this.client.GetGrain<IProfileGrain>(Guid.NewGuid());
+            var grain = client.GetGrain<IProfileGrain>(Guid.NewGuid());
             var content = await grain.Get();
             return new[] { content };
 
