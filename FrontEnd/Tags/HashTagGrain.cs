@@ -12,23 +12,23 @@ namespace Grains.Tags
         private readonly int takeLimit = 1000;
         private FixedSizedQueue<HashTagLink> links;
 
-        public HashTagGrain(IRelationalStore store, IClusterClient client)
+        public HashTagGrain(/*IRelationalStore store,*/ IClusterClient client)
         {
             links = new FixedSizedQueue<HashTagLink>(takeLimit);
-            this.store = store;
+            //this.store = store;
             this.client = client;
         }
 
         public override Task OnActivateAsync(CancellationToken cancellationToken)
         {
-            foreach (var link in store.HashTagLinks
-                .Where(n => n.Name == IdentityString)
-                .OrderByDescending(n => n.TimeStamp)
-                .Take(takeLimit)
-                .ToArray())
-            {
-                links.Enqueue(link);
-            }
+            //foreach (var link in store.HashTagLinks
+            //    .Where(n => n.Name == IdentityString)
+            //    .OrderByDescending(n => n.TimeStamp)
+            //    .Take(takeLimit)
+            //    .ToArray())
+            //{
+            //    links.Enqueue(link);
+            //}
 
             return base.OnActivateAsync(cancellationToken);
         }
@@ -38,7 +38,7 @@ namespace Grains.Tags
         {
             var link = new HashTagLink() { Name = IdentityString, Post = post.Id, ProfileId = post.Author };
 
-            await store.HashTagLinks.AddAsync(link);
+            // await store.HashTagLinks.AddAsync(link);
             links.Enqueue(link);
 
             return link;

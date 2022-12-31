@@ -4,7 +4,7 @@ using GrainInterfaces.States;
 
 namespace Grains.Posts
 {
-    public class PostStatisticsGrain : EventGrain<Statistics, IStatisticsEvent>, IPostTrackingGrain
+    public class PostStatisticsGrain : EventGrain<Statistics, IStatisticsEvent>, IPostStatisticsGrain
 
     {
         public async Task<Statistics> Get() => this.State;

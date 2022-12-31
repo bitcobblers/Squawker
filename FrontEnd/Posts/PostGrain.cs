@@ -19,7 +19,7 @@ namespace Grains.Posts
 
         public async Task<Post> Get()
         {
-            var statistics = client.GetGrain<IPostTrackingGrain>(this.GetPrimaryKey());
+            var statistics = client.GetGrain<IPostStatisticsGrain>(this.GetPrimaryKey());
             await statistics.View();
             return State;
         }

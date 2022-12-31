@@ -36,7 +36,7 @@ namespace GrainInterfaces.Model
 
 
         [Id(4)]
-        public PostContentSection[] Content { get; set; }
+        public PostContentSection[] Content { get; set; } = new PostContentSection[0];
 
         public void Apply(Post state)
         {

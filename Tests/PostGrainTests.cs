@@ -50,7 +50,7 @@ namespace Tests
         }
 
         [Fact]
-        public async Task SaysHelloCorrectly()
+        public async Task CanCreateATestPost()
         {
             var post = _cluster.GrainFactory.GetGrain<ICreatePostGrain>(0);
             var createdPost = await post.Create(new SimpleTextRequest("Hello, World", Guid.NewGuid()));
@@ -62,18 +62,44 @@ namespace Tests
         }
 
         [Fact]
-        public async Task SaysHelloCorrectlyStatistics()
+        public async Task GettingThePostIncrementsTheViewStatstics()
         {
             var post = _cluster.GrainFactory.GetGrain<ICreatePostGrain>(0);
             
             var createdPost = await post.Create(new SimpleTextRequest("Hello, World", Guid.NewGuid()));
 
-            var stats = _cluster.GrainFactory.GetGrain<IPostTrackingGrain>(createdPost.Id);
+            var stats = _cluster.GrainFactory.GetGrain<IPostStatisticsGrain>(createdPost.Id);
             var postGrain = _cluster.GrainFactory.GetGrain<IPostGrain>(createdPost.Id);
             var greeting = await postGrain.Get();
             var views = await stats.Get();
 
             Assert.Equal(1, views.Views);
+        }
+
+        [Fact]
+        public async Task ReplysIncrementsTheCommentStatstics()
+        {
+            var post = _cluster.GrainFactory.GetGrain<ICreatePostGrain>(0);
+            var reply = _cluster.GrainFactory.GetGrain<ICreateReplyGrain>(0);
+
+            var createdPost = await post.Create(new SimpleTextRequest("Hello, World", Guid.NewGuid()));
+            await reply.ReplyTo(createdPost.Id, Guid.NewGuid());
+
+            var stats = _cluster.GrainFactory.GetGrain<IPostStatisticsGrain>(createdPost.Id);            
+            var views = await stats.Get();
+
+            Assert.Equal(1, views.Comments);
+        }
+
+
+        [Fact]
+        public async Task CreatingAPostIdentifiesHashTags()
+        {
+            var post = _cluster.GrainFactory.GetGrain<ICreatePostGrain>(0);                        
+
+            var createdPost = await post.Create(new SimpleTextRequest("Hello, #World", Guid.NewGuid()));                        
+            Assert.Equal(1, createdPost.HashTags.Count());
+            Assert.Equal("hashtag/#World", createdPost.HashTags[0].Name);
         }
     }
 }

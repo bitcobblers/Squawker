@@ -8,7 +8,7 @@ namespace GrainInterfaces.Posts
         int Value { get; set; }    
     }
 
-    public interface IPostTrackingGrain : IGrainWithGuidKey
+    public interface IPostStatisticsGrain : IGrainWithGuidKey
     {
         Task View();
 
