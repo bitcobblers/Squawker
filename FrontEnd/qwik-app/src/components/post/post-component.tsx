@@ -1,4 +1,5 @@
 import { component$ } from '@builder.io/qwik';
+import { Link } from '@builder.io/qwik-city';
 import { IPost } from '../../models/post';
 
 export default component$((props: { post: IPost }) => {
@@ -18,6 +19,7 @@ export default component$((props: { post: IPost }) => {
                 </div>
             </div>
             <div class="flex p-2 border-t flex-row-reverse">                
+                <div class="text-blue-300 pr-4"><Link href={"/p/" + p.id}>Details</Link></div>                
                 <div class="text-blue-300 pr-4">Comments (13)</div>                
             </div>
         </div>

@@ -30,12 +30,20 @@ namespace FrontEnd.Posts
             return await grain.Get(userName);
         }
 
-        [HttpPost]
-        public async Task<Post> Post([FromBody] string post)
+        [HttpGet("{id}")]
+        public async Task<Post> Get(Guid id)
+        {
+            var grain = client.GetGrain<IPostGrain>(id);            
+            return await grain.Get();
+        }
+        
+        [HttpPost()]        
+        [Route("{id?}")]
+        public async Task<Post> Post([FromRoute] Guid? id, [FromBody] string post)
         {
             var userId = Guid.NewGuid();
-            var grain = client.GetGrain<ICreatePostGrain>(0);
-            var result = await grain.Create(new SimpleTextRequest(post, userId));
+            var grain = client.GetGrain<ICreatePostGrain>(0);            
+            var result = await grain.Create(new SimpleTextRequest(post, userId) {  ReplyTo = id });
 
             return result;
         }
