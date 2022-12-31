@@ -9,6 +9,4 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Orleans.Sdk" Version="7.0.0" />
   </ItemGroup>
-	
-
 </Project>

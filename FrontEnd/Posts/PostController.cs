@@ -13,9 +13,9 @@ namespace FrontEnd.Posts
     public class PostController : ControllerBase
     {
         private readonly IClusterClient client;
-        private readonly ILogger<ProfileController> logger;
+        private readonly ILogger<PostController> logger;
 
-        public PostController(IClusterClient client, ILogger<ProfileController> logger)
+        public PostController(IClusterClient client, ILogger<PostController> logger)
         {
             this.client = client;
             this.logger = logger;

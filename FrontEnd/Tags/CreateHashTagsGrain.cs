@@ -11,7 +11,7 @@ namespace Grains.Tags
     [StatelessWorker]
     public class CreateHashTagsGrain : Grain, ICreateHashTagsGrain
     {
-        private readonly Regex hashTags = new Regex(@"\B(\#[a-zA-Z]+\b)(?!;)");
+        private readonly Regex hashTags = new Regex(@"(#)((?:[A-Za-z0-9-_]*))");
         private readonly IClusterClient client;
 
         public CreateHashTagsGrain(IClusterClient client)
@@ -31,7 +31,8 @@ namespace Grains.Tags
             var results = new List<Task<HashTagLink>>();
             foreach (Match hashTag in hashTags)
             {
-                var hasTag = client.GetGrain<IHashTagGrain>(hashTag.Value);
+                var tag = hashTag.Value.Replace("#", string.Empty);
+                var hasTag = client.GetGrain<IHashTagGrain>(tag);
                 results.Add(hasTag.Link(post));
             }
             var tags = await Task.WhenAll(results);
