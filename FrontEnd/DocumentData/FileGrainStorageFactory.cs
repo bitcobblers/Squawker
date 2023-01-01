@@ -10,8 +10,9 @@ namespace Grains.DocumentData
         internal static IGrainStorage Create(
             IServiceProvider services, string name)
         {
-            IOptionsSnapshot<FileGrainStorageOptions> optionsSnapshot =
-                services.GetRequiredService<IOptionsSnapshot<FileGrainStorageOptions>>();
+            using var scope = services.CreateScope();
+            IOptionsSnapshot<FileGrainStorageOptions> optionsSnapshot 
+                = scope.ServiceProvider.GetRequiredService<IOptionsSnapshot<FileGrainStorageOptions>>();
 
             return ActivatorUtilities.CreateInstance<FileGrainStorage>(
                 services,

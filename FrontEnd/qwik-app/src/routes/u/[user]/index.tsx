@@ -44,17 +44,7 @@ export default component$(() => {
 
     return (
         <div class="mx-auto max-w-xl">
-            <div class="pt-4 mt-4 border-t-2">
-                <Resource
-                    value={feed}
-                    onPending={() => <div>Loading...</div>}
-                    onRejected={(reason) => <div>Error: {reason}</div>}
-                    onResolved={(post) =>
-                        <div>
-                            <PostComponent post={post} />
-                        </div>
-                    }
-                />
+            <div class="pt-4 mt-4 border-t-2">                
             </div>
             <div class="flex">
                 <textarea onInput$={(e: Event) => (store.content = (e.target as HTMLInputElement).value)}

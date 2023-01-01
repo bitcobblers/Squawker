@@ -28,7 +28,7 @@ export default component$(() => {
         }
    });
 
-    const feed = useResource$<IPost[]>(async ({ track, cleanup }) => {
+    const feed = useResource$<IPost>(async ({ track, cleanup }) => {
         const abortController = new AbortController();
 
         track(() => store.name);

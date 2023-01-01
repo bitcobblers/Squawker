@@ -1,11 +1,11 @@
 ﻿using GrainInterfaces.Posts;
 using GrainInterfaces.States;
-
+using Orleans.Providers;
 
 namespace Grains.Posts
 {
+    [StorageProvider(ProviderName = "Document")]
     public class PostStatisticsGrain : EventGrain<Statistics, IStatisticsEvent>, IPostStatisticsGrain
-
     {
         public async Task<Statistics> Get() => this.State;
 
