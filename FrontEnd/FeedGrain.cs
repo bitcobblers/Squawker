@@ -1,14 +1,28 @@
 ﻿using GrainInterfaces;
+using GrainInterfaces.Feeds;
 using GrainInterfaces.Model;
 using GrainInterfaces.States;
 using Orleans.Concurrency;
 
 namespace Grains
 {
+
+    public interface IFeedRequest
+    {
+        Guid UserId { get; }
+        string Type { get; }
+
+        DateTime? StartingFrom { get; }
+        DateTime? EndingBefor { get; }
+
+        int? PageSize { get; }
+        int? PageCount { get; }
+    }
+
     [StatelessWorker]
     public class FeedGrain : Grain, IFeedGrain
     {
-        public Task<Post[]> Get(string feedName)
+        public Task<Post[]> Get(IFeedRequest request)
         {
             var user = Guid.NewGuid();
             var result = new Post[] { 
@@ -18,6 +32,11 @@ namespace Grains
             };
 
             return Task.FromResult(result);
+        }
+     
+        public Task<Post[]> Get(Guid[] ids)
+        {
+            throw new NotImplementedException();
         }
     }
 }

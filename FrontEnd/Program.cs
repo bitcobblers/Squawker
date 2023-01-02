@@ -12,7 +12,7 @@ await Host.CreateDefaultBuilder(args)
 
         var cluster = c.UseLocalhostClustering();
         cluster.AddFileGrainStorage("Document", opt =>
-        {
+        { 
             opt.RootDirectory = storage;
         });
         cluster.AddMemoryGrainStorage("Relational");
