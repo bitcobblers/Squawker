@@ -20,7 +20,7 @@ namespace FrontEnd.Posts
 
         public async Task<Post[]> Query(IQueryableSelector request)
         {
-            var queriable = request.SelectQueryable(this.client);
+            var queriable = request.GetQueryable(this.client);
             var ids = await queriable.Query(request);
             return await this.Get(ids);
         }

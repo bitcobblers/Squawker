@@ -1,24 +1,8 @@
 ﻿using GrainInterfaces;
-using GrainInterfaces.States;
-using GrainInterfaces.Tags;
 
 namespace FrontEnd.Posts.Query
 {
-    public class TagFeedQuery : FeedQuery
-    {        
-        public TagFeedQuery(Guid user, string tag) : base(user)
-        {
-            Tag = tag;
-        }
-
-        public string Tag { get; }
-
-        public override IPostQueryable SelectQueryable(IClusterClient client)
-        {
-            return client.GetGrain<IHashTagGrain>(this.Tag);
-        }
-    }
-
+    [GenerateSerializer]
     public abstract class FeedQuery : IPostQuery, IQueryableSelector        
     {
         protected FeedQuery(Guid user)
@@ -26,8 +10,9 @@ namespace FrontEnd.Posts.Query
             UserId = user;
         }
 
+        [Id(0)]
         public Guid UserId { get; set; }
 
-        public abstract IPostQueryable SelectQueryable(IClusterClient client);
+        public abstract IPostQueryable GetQueryable(IClusterClient client);
     }
 }

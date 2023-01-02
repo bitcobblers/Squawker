@@ -26,7 +26,7 @@ namespace FrontEnd.Posts
         public Task<Post[]> Get()
         {
             var grain = client.GetGrain<IFeedGrain>(0);            
-            return grain.Query(new TagFeedQuery(Guid.NewGuid(), string.Empty));
+            return grain.Query(new PublicFeedQuery(Guid.NewGuid()));
         }
 
         [HttpGet("{id}")]

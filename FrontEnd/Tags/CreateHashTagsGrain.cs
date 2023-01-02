@@ -22,6 +22,9 @@ namespace Grains.Tags
         public async Task Create(Post post)
         {
             var hashTags = post.Content.SelectMany(section => this.hashTags.Matches(section.Body));
+            var postTracker = client.GetGrain<IHashTagGrain>(string.Empty);
+            await postTracker.Link(post);
+
             if (!hashTags.Any())
             {
                 return;

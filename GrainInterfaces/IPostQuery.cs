@@ -4,7 +4,7 @@ namespace GrainInterfaces
 {    
     public interface IQueryableSelector : IPostQuery
     {
-        IPostQueryable SelectQueryable(IClusterClient client);                
+        IPostQueryable GetQueryable(IClusterClient client);                
     }
 
     public interface IPostQuery
