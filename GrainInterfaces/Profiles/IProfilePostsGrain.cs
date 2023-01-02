@@ -2,7 +2,7 @@
 
 namespace GrainInterfaces.Profiles
 {
-    public interface IProfilePostsGrain : IGrainWithGuidKey
+    public interface IProfilePostsGrain : IPostQueryable, IGrainWithGuidKey
     {
         Task PostCreated(Post post);
     }

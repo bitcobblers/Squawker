@@ -99,7 +99,7 @@ namespace Tests
 
             var createdPost = await post.Create(new SimpleTextRequest("Hello, #World", Guid.NewGuid()));                        
             Assert.Equal(1, createdPost.HashTags.Count());
-            Assert.Equal("hashtag/#World", createdPost.HashTags[0].Name);
+            Assert.Equal("hashtag/World", createdPost.HashTags[0].Name);
         }
     }
 }

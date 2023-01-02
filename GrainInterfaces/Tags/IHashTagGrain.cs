@@ -3,9 +3,8 @@ using GrainInterfaces.States;
 
 namespace GrainInterfaces.Tags
 {
-    public interface IHashTagGrain : IGrainWithStringKey
+    public interface IHashTagGrain : IPostQueryable, IGrainWithStringKey
     {
-        Task<HashTagLink> Link(Post post);
-        Task<Guid[]> Posts();
+        Task<HashTagLink> Link(Post post);        
     }
 }

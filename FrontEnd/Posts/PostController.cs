@@ -1,4 +1,5 @@
-﻿using FrontEnd.Profiles;
+﻿using FrontEnd.Posts.Query;
+using FrontEnd.Profiles;
 using GrainInterfaces;
 using GrainInterfaces.Model;
 using GrainInterfaces.Posts;
@@ -22,12 +23,10 @@ namespace FrontEnd.Posts
         }
 
         [HttpGet]
-        public async Task<Post[]> Get()
+        public Task<Post[]> Get()
         {
-            var grain = client.GetGrain<IFeedGrain>(0);
-            var userName = string.Empty;
-
-            return await grain.Get(userName);
+            var grain = client.GetGrain<IFeedGrain>(0);            
+            return grain.Query(new TagFeedQuery(Guid.NewGuid(), string.Empty));
         }
 
         [HttpGet("{id}")]

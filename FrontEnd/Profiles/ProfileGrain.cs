@@ -1,4 +1,5 @@
-﻿using GrainInterfaces.Model;
+﻿using GrainInterfaces;
+using GrainInterfaces.Model;
 using GrainInterfaces.Profiles;
 using GrainInterfaces.States;
 using Orleans;
@@ -11,6 +12,11 @@ namespace Grains.Profiles
    
     public class ProfilePostGrain : IProfilePostsGrain
     {
+        public Task<Guid[]> Query(IPostQuery request)
+        {
+            return Task.FromResult(new Guid[0]);
+        }
+
         public Task PostCreated(Post post)
         {
             Console.WriteLine("Test");

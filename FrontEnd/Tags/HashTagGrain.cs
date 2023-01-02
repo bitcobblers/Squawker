@@ -1,4 +1,6 @@
-﻿using GrainInterfaces.Model.Index;
+﻿using GrainInterfaces;
+using GrainInterfaces.Model.Index;
+using GrainInterfaces.Posts;
 using GrainInterfaces.States;
 using GrainInterfaces.Tags;
 using Grains.RelationalData;
@@ -10,7 +12,7 @@ namespace Grains.Tags
         private readonly IRelationalStore store;
         private readonly IClusterClient client;
         private readonly int takeLimit = 1000;
-        private FixedSizedQueue<HashTagLink> links;
+        private readonly FixedSizedQueue<HashTagLink> links;
 
         public HashTagGrain(/*IRelationalStore store,*/ IClusterClient client)
         {
@@ -43,9 +45,11 @@ namespace Grains.Tags
 
             return link;
         }
+        
+        public Task<Guid[]> Query(IPostQuery request)
+        {
+            return Task.FromResult(links.Select(n => n.Post).ToArray());
+        }
 
-        public Task<Guid[]> Posts() => Task.FromResult(links
-            .Select(n => n.Post)
-            .ToArray());
     }
 }
