@@ -4,9 +4,22 @@ import PostComponent from '../components/post/post-component';
 import { IPost } from '../models/post';
 
 export default component$(() => {
-    const store = useStore<{ name?: string, content: string }>({
-        name: undefined,
+    const store = useStore<{ timestamp?: number, content: string }>({
+        timestamp: undefined,
         content: ""
+    });   
+
+    const feed = useResource$<IPost[]>(async ({ track, cleanup }) => {
+        const abortController = new AbortController();
+
+        track(() => store.timestamp);        
+        cleanup(() => abortController.abort('cleanup'));
+
+        const res = await fetch(`https://localhost:3000/api/post`, {
+            signal: abortController.signal,
+        });
+
+        return res.json();
     });
 
     const createNew = $(() => {
@@ -21,24 +34,13 @@ export default component$(() => {
                 signal: abortController.signal,
             }).then(res => {
                 store.content = "";
+                store.timestamp = Date.now();
                 console.log(res.json());
             });
         }
     });
 
-    const feed = useResource$<IPost[]>(async ({ track, cleanup }) => {
-        const abortController = new AbortController();
-
-        track(() => store.name);        
-        cleanup(() => abortController.abort('cleanup'));
-
-        const res = await fetch(`https://localhost:3000/api/post`, {
-            signal: abortController.signal,
-        });
-
-        return res.json();
-    });
-    store.name = "323";
+    //store.timestamp = Date.now();
 
     return (        
         <div class="mx-auto max-w-xl">                                        
