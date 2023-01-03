@@ -3,17 +3,26 @@ using GrainInterfaces.Posts;
 using Orleans.TestingHost;
 using Orleans.Core;
 using Orleans.Runtime;
+using Microsoft.Extensions.DependencyInjection;
+using FakeItEasy;
+using FrontEnd.Store.RelationalData;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace Tests
-{
-
+{     
     public class TestSiloConfigurations : ISiloConfigurator
     {
         public void Configure(ISiloBuilder siloBuilder)
-        {
-            siloBuilder.AddMemoryGrainStorage("Document");
-            siloBuilder.AddMemoryGrainStorage("Document");            
+        {            
+            
+            var _contextOptions = new DbContextOptionsBuilder<RelationalStore>()
+                .UseInMemoryDatabase("Test")
+                .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+            .Options;
 
+            siloBuilder.AddMemoryGrainStorage("Document");
+            siloBuilder.Services.AddSingleton < IRelationalStore>(s => new RelationalStore(_contextOptions));
         }   
     }
 
@@ -23,7 +32,7 @@ namespace Tests
         {
             var builder = new TestClusterBuilder();
             
-            builder.AddSiloBuilderConfigurator<TestSiloConfigurations>();
+            builder.AddSiloBuilderConfigurator<TestSiloConfigurations>();                        
             Cluster = builder.Build();            
             Cluster.Deploy();
         }
@@ -46,7 +55,7 @@ namespace Tests
 
         public PostGrainTests(ClusterFixture fixture)
         {
-            _cluster = fixture.Cluster;
+            _cluster = fixture.Cluster;            
         }
 
         [Fact]

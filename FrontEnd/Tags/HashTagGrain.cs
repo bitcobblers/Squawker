@@ -16,7 +16,7 @@ namespace Grains.Tags
         public HashTagGrain(IRelationalStore store, IClusterClient client)
         {
             links = new FixedSizedQueue<HashTagLink>(takeLimit);
-            //this.store = store;
+            this.store = store;
             this.client = client;
         }
 
@@ -37,9 +37,7 @@ namespace Grains.Tags
 
         public async Task<HashTagLink> Link(Post post)
         {
-            var link = new HashTagLink() { Name = IdentityString, PostId = post.Id };
-
-            // await store.HashTagLinks.AddAsync(link);
+            var link = new HashTagLink() { Name = IdentityString, PostId = post.Id };            
             links.Enqueue(link);
 
             return link;
@@ -47,6 +45,7 @@ namespace Grains.Tags
         
         public Task<Guid[]> Query(IFeedQuery request)
         {
+            // this will need to fall back to database if the query is outside the scope of the current query length.
             return Task.FromResult(links.Select(n => n.PostId).ToArray());
         }
 

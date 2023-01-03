@@ -36,7 +36,12 @@ namespace Grains.Tags
             foreach (var tag in tags.Where(n=>n.Name != string.Empty))
             {
                 hasTags = true;
-                this.store.Tags.Add(tag);
+                this.store.Tags.Add(new HashTagIndex()
+                {
+                    Name = tag.Name,
+                    PostIndexId = tag.PostId,
+                    State = tag.State
+                });
             }
             
             if (hasTags)
