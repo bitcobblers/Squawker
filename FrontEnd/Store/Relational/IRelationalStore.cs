@@ -7,12 +7,7 @@ namespace FrontEnd.Store.RelationalData
     {
         DbSet<HashTagLink> HashTagLinks { get; set; }
 
-        DbSet<PostView> PostViews { get; set; }
-
-        DbSet<PostView> ProfileViews { get; set; }
-
-        DbSet<ProfileFriend> ProfileFollower { get; set; }
-
-        DbSet<ProfileFriend> ProfileFriends { get; set; }
+        DbSet<PostIndex> PostsIndex { get; set; }
+        
     }
 }

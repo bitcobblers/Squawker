@@ -24,25 +24,25 @@ namespace Grains.Tags
 
         public async Task Create(Post post)
         {
+            var hasTags = false;
             var hashTags = post.Content
                 .SelectMany(section => this.hashTags.Matches(section.Body))
                 .Select(match => match.Value.Replace("#", string.Empty));
+
+            var requests = new[] { string.Empty }.Concat(hashTags)
+                .Select(tag => client.GetGrain<IHashTagGrain>(tag).Link(post));
             
-            var results = new List<Task<HashTagLink>>();
-            var defaultTracker = client.GetGrain<IHashTagGrain>(string.Empty);
-            results.Add(defaultTracker.Link(post));
-                        
-            foreach (string tag in hashTags)
-            {                
-                var tagGrain = client.GetGrain<IHashTagGrain>(tag);
-                results.Add(tagGrain.Link(post));
+            var tags = await Task.WhenAll(requests);
+            foreach (var tag in tags.Where(n=>n.Name != string.Empty))
+            {
+                hasTags = true;
+                this.store.HashTagLinks.Add(tag);
             }
             
-            var tags = await Task.WhenAll(results);
-            if (hashTags.Any())
+            if (hasTags)
             {
                 var postGrain = client.GetGrain<IPostGrain>(post.Id);
-                await postGrain.Update(new UpdatePostRequest() { HashTags = tags });
+                await postGrain.Update(new UpdatePostRequest() { HashTags = tags });                
             }            
         }
     }

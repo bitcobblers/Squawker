@@ -2,7 +2,7 @@
 
 namespace GrainInterfaces.Model.Index
 {
-    public class PostView : RelationalEvent
+    public class PostIndex
     {
         [Key]
         public Guid Post { get; set; }

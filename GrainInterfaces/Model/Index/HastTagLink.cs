@@ -11,7 +11,7 @@ namespace GrainInterfaces.Model.Index
     }
 
     [GenerateSerializer]
-    public class HashTagLink : RelationalEvent
+    public class HashTagLink
     {
         [Key]
         [Id(0)]
@@ -20,11 +20,7 @@ namespace GrainInterfaces.Model.Index
         [Key]
         [Id(1)]
         public Guid Post { get; set; }
-
-        [Id(3)]
-        public Guid ProfileId { get; set; }
-
-
+        
         [Id(2)]
         public HashTagLinkState State { get; set; }
     }
