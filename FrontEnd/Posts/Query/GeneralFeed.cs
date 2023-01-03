@@ -13,6 +13,6 @@ namespace FrontEnd.Posts.Query
         [Id(0)]
         public Guid UserId { get; set; }
 
-        public abstract IPostFeed GetQueryable(IClusterClient client);
+        public abstract IPostFeed GetFeed(IClusterClient client);
     }
 }

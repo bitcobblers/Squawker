@@ -4,7 +4,7 @@ using Orleans.Runtime;
 using Orleans.Storage;
 using System.Text.Json;
 
-namespace Grains.DocumentData
+namespace FrontEnd.Store.DocumentData
 {
 
     public class FileGrainStorage
@@ -12,7 +12,7 @@ namespace Grains.DocumentData
     {
         private readonly string _storageName;
         private readonly FileGrainStorageOptions _options;
-        private readonly ClusterOptions _clusterOptions;        
+        private readonly ClusterOptions _clusterOptions;
 
         public FileGrainStorage(
             string storageName,
@@ -21,41 +21,42 @@ namespace Grains.DocumentData
         {
             _storageName = storageName;
             _options = options;
-            _clusterOptions = clusterOptions.Value;            
+            _clusterOptions = clusterOptions.Value;
 
-    }
+        }
 
         private Task Init(CancellationToken ct)
         {
             // Settings could be made configurable from Options.
-            
+
             return Task.CompletedTask;
         }
 
-        public Task ReadStateAsync<T>(string stateName, GrainId grainId, IGrainState<T> grainState)            
-        {                       
-            var filename = this._options.FileNamer.Get<T>(this._clusterOptions.ServiceId, grainId.GetGuidKey());            
-            var fileInfo = this._options.RootDirectory.GetFileInfo(filename);
+        public Task ReadStateAsync<T>(string stateName, GrainId grainId, IGrainState<T> grainState)
+        {
+            var filename = _options.FileNamer.Get<T>(_clusterOptions.ServiceId, grainId.GetGuidKey());
+            var fileInfo = _options.RootDirectory.GetFileInfo(filename);
 
-            if (fileInfo == null || !fileInfo.Exists) {
+            if (fileInfo == null || !fileInfo.Exists)
+            {
                 grainState.State = Activator.CreateInstance<T>();
             }
             else
             {
                 var stream = fileInfo?.CreateReadStream() ?? new MemoryStream();
                 grainState.State = JsonSerializer.Deserialize<T>(stream);
-            }            
+            }
 
             grainState.ETag = fileInfo.LastModified.ToString();
             return Task.CompletedTask;
-            
+
         }
 
         public Task WriteStateAsync<T>(string stateName, GrainId grainId, IGrainState<T> grainState)
         {
 
-            var filename = this._options.FileNamer.Get<T>(this._clusterOptions.ServiceId, grainId.GetGuidKey());
-            var fileInfo = this._options.RootDirectory.GetFileInfo(filename);
+            var filename = _options.FileNamer.Get<T>(_clusterOptions.ServiceId, grainId.GetGuidKey());
+            var fileInfo = _options.RootDirectory.GetFileInfo(filename);
 
 
             if (fileInfo.Exists && fileInfo.LastModified.ToString() != grainState.ETag)
@@ -66,9 +67,9 @@ namespace Grains.DocumentData
                     $"GrainReference={grainId.GetGuidKey()}.");
             }
 
-                        
-            this._options.RootDirectory.Write(filename, JsonSerializer.Serialize(grainState.State));
-            var lastModified = this._options.RootDirectory.GetFileInfo(filename).LastModified.ToString();
+
+            _options.RootDirectory.Write(filename, JsonSerializer.Serialize(grainState.State));
+            var lastModified = _options.RootDirectory.GetFileInfo(filename).LastModified.ToString();
             grainState.ETag = lastModified;
 
             return Task.CompletedTask;
@@ -76,8 +77,8 @@ namespace Grains.DocumentData
 
         public Task ClearStateAsync<T>(string stateName, GrainId grainId, IGrainState<T> grainState)
         {
-            var filename = this._options.FileNamer.Get<T>(this._clusterOptions.ServiceId, grainId.GetGuidKey());
-            var fileInfo = this._options.RootDirectory.GetFileInfo(filename);
+            var filename = _options.FileNamer.Get<T>(_clusterOptions.ServiceId, grainId.GetGuidKey());
+            var fileInfo = _options.RootDirectory.GetFileInfo(filename);
 
 
             if (fileInfo.Exists && fileInfo.LastModified.ToString() != grainState.ETag)
@@ -90,7 +91,7 @@ namespace Grains.DocumentData
 
             grainState.ETag = null;
             grainState.State = Activator.CreateInstance<T>();
-            this._options.RootDirectory.Delete(filename);
+            _options.RootDirectory.Delete(filename);
 
             return Task.CompletedTask;
         }

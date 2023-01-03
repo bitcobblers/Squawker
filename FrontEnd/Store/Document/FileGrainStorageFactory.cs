@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Orleans.Configuration.Overrides;
 using Orleans.Storage;
 
-namespace Grains.DocumentData
+namespace FrontEnd.Store.DocumentData
 {
     public static class FileGrainStorageFactory
     {
@@ -11,7 +11,7 @@ namespace Grains.DocumentData
             IServiceProvider services, string name)
         {
             using var scope = services.CreateScope();
-            IOptionsSnapshot<FileGrainStorageOptions> optionsSnapshot 
+            IOptionsSnapshot<FileGrainStorageOptions> optionsSnapshot
                 = scope.ServiceProvider.GetRequiredService<IOptionsSnapshot<FileGrainStorageOptions>>();
 
             return ActivatorUtilities.CreateInstance<FileGrainStorage>(

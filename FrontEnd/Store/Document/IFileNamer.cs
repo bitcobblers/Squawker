@@ -1,4 +1,4 @@
-﻿namespace Grains.DocumentData
+﻿namespace FrontEnd.Store.DocumentData
 {
     public interface IFileNamer
     {

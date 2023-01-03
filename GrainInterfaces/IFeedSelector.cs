@@ -4,6 +4,6 @@ namespace GrainInterfaces
 {
     public interface IFeedSelector : IFeedQuery
     {
-        IPostFeed GetQueryable(IClusterClient client);                
+        IPostFeed GetFeed(IClusterClient client);                
     }
 }

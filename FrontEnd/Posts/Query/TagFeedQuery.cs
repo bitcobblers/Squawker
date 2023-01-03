@@ -14,7 +14,7 @@ namespace FrontEnd.Posts.Query
         [Id(0)]
         public string Tag { get; }
 
-        public override IPostFeed GetQueryable(IClusterClient client)
+        public override IPostFeed GetFeed(IClusterClient client)
         {
             return client.GetGrain<IHashTagGrain>(this.Tag);
         }

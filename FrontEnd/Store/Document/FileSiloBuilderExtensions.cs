@@ -1,7 +1,7 @@
 ﻿using Orleans.Runtime;
 using Orleans.Storage;
 
-namespace Grains.DocumentData
+namespace FrontEnd.Store.DocumentData
 {
     public static class FileSiloBuilderExtensions
     {

@@ -20,8 +20,8 @@ namespace FrontEnd.Posts
 
         public async Task<Post[]> Query(IFeedSelector request)
         {
-            var queriable = request.GetQueryable(this.client);
-            var ids = await queriable.Query(request);
+            var feed = request.GetFeed(this.client);
+            var ids = await feed.Query(request);
             return await this.Get(ids);
         }
 
