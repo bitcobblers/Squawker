@@ -12,7 +12,7 @@ namespace Grains.Profiles
    
     public class ProfilePostGrain : IProfilePostsGrain
     {
-        public Task<Guid[]> Query(IPostQuery request)
+        public Task<Guid[]> Query(IFeedQuery request)
         {
             return Task.FromResult(new Guid[0]);
         }

@@ -3,7 +3,7 @@
 namespace FrontEnd.Posts.Query
 {
     [GenerateSerializer]
-    public abstract class FeedQuery : IPostQuery, IQueryableSelector        
+    public abstract class FeedQuery : IFeedQuery, IFeedSelector        
     {
         protected FeedQuery(Guid user)
         {
@@ -13,6 +13,6 @@ namespace FrontEnd.Posts.Query
         [Id(0)]
         public Guid UserId { get; set; }
 
-        public abstract IPostQueryable GetQueryable(IClusterClient client);
+        public abstract IPostFeed GetQueryable(IClusterClient client);
     }
 }

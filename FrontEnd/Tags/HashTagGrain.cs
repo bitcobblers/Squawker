@@ -46,7 +46,7 @@ namespace Grains.Tags
             return link;
         }
         
-        public Task<Guid[]> Query(IPostQuery request)
+        public Task<Guid[]> Query(IFeedQuery request)
         {
             return Task.FromResult(links.Select(n => n.Post).ToArray());
         }

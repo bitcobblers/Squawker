@@ -7,6 +7,6 @@ namespace GrainInterfaces.Posts
     {        
         Task<Post[]> Get(Guid[] ids);
         
-        Task<Post[]> Query(IQueryableSelector request);
+        Task<Post[]> Query(IFeedSelector request);
     }
 }
