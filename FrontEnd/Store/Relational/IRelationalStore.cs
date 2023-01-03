@@ -5,9 +5,10 @@ namespace FrontEnd.Store.RelationalData
 {
     public interface IRelationalStore
     {
-        DbSet<HashTagLink> HashTagLinks { get; set; }
+        DbSet<HashTagIndex> Tags { get; set; }
 
-        DbSet<PostIndex> PostsIndex { get; set; }
-        
+        DbSet<PostIndex> Posts { get; set; }
+
+        //DbSet<PostVisit> PostVisits { get; set; }
     }
 }

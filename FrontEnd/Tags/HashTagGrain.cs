@@ -1,9 +1,8 @@
-﻿using GrainInterfaces;
+﻿using FrontEnd.Store.RelationalData;
+using GrainInterfaces;
 using GrainInterfaces.Model.Index;
-using GrainInterfaces.Posts;
 using GrainInterfaces.States;
 using GrainInterfaces.Tags;
-using Grains.RelationalData;
 
 namespace Grains.Tags
 {
@@ -14,7 +13,7 @@ namespace Grains.Tags
         private readonly int takeLimit = 1000;
         private readonly FixedSizedQueue<HashTagLink> links;
 
-        public HashTagGrain(/*IRelationalStore store,*/ IClusterClient client)
+        public HashTagGrain(IRelationalStore store, IClusterClient client)
         {
             links = new FixedSizedQueue<HashTagLink>(takeLimit);
             //this.store = store;
@@ -23,14 +22,14 @@ namespace Grains.Tags
 
         public override Task OnActivateAsync(CancellationToken cancellationToken)
         {
-            //foreach (var link in store.HashTagLinks
-            //    .Where(n => n.Name == IdentityString)
-            //    .OrderByDescending(n => n.TimeStamp)
-            //    .Take(takeLimit)
-            //    .ToArray())
-            //{
-            //    links.Enqueue(link);
-            //}
+            foreach (var link in store.Tags
+                .Where(n => n.Name == IdentityString)
+                .OrderByDescending(n => n.PostIndex.TimeStamp)
+                .Take(takeLimit)
+                .ToArray())
+            {
+                links.Enqueue(new HashTagLink() { Name = link.Name, PostId = link.PostIndexId, State = link.State });
+            }
 
             return base.OnActivateAsync(cancellationToken);
         }
@@ -38,7 +37,7 @@ namespace Grains.Tags
 
         public async Task<HashTagLink> Link(Post post)
         {
-            var link = new HashTagLink() { Name = IdentityString, Post = post.Id, ProfileId = post.Author };
+            var link = new HashTagLink() { Name = IdentityString, PostId = post.Id };
 
             // await store.HashTagLinks.AddAsync(link);
             links.Enqueue(link);
@@ -48,7 +47,7 @@ namespace Grains.Tags
         
         public Task<Guid[]> Query(IFeedQuery request)
         {
-            return Task.FromResult(links.Select(n => n.Post).ToArray());
+            return Task.FromResult(links.Select(n => n.PostId).ToArray());
         }
 
     }

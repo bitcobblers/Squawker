@@ -1,13 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.VisualBasic;
+using System.ComponentModel.DataAnnotations;
 
 namespace GrainInterfaces.Model.Index
-{
-    public class PostIndex
+{   
+    public class HashTagIndex
     {
-        [Key]
-        public Guid Post { get; set; }
+        public string Name { get; set; }        
+        
+        public HashTagLinkState State { get; set; }
 
-        [Key]
-        public Guid Visitor { get; set; }
+        public Guid PostIndexId { get; set; }
+
+        public PostIndex PostIndex { get; set; }
+    }
+
+    public class PostIndex : RelationalEvent
+    {        
+        public Guid PostIndexId { get; set; }
+
+        public Guid AuthorIndexId { get; set; }
+
+        public Guid? ReplyTo { get; set; }
     }
 }

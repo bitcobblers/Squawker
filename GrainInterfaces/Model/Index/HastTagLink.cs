@@ -12,15 +12,13 @@ namespace GrainInterfaces.Model.Index
 
     [GenerateSerializer]
     public class HashTagLink
-    {
-        [Key]
+    {        
         [Id(0)]
         public string Name { get; set; }
-
-        [Key]
+     
         [Id(1)]
-        public Guid Post { get; set; }
-        
+        public Guid PostId { get; set; }
+                
         [Id(2)]
         public HashTagLinkState State { get; set; }
     }

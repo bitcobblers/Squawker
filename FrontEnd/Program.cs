@@ -1,4 +1,4 @@
-using Grains.DocumentData;
+using FrontEnd.Store.DocumentData;
 using Microsoft.Extensions.FileProviders;
 using Orleans.Configuration;
 using System.Net;

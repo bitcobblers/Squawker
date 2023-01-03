@@ -36,7 +36,7 @@ namespace Grains.Tags
             foreach (var tag in tags.Where(n=>n.Name != string.Empty))
             {
                 hasTags = true;
-                this.store.HashTagLinks.Add(tag);
+                this.store.Tags.Add(tag);
             }
             
             if (hasTags)

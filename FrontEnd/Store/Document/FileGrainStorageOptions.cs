@@ -1,6 +1,4 @@
-﻿using Grains.DocumentData;
-
-namespace FrontEnd.Store.DocumentData
+﻿namespace FrontEnd.Store.DocumentData
 {
 
     public class FileGrainStorageOptions
